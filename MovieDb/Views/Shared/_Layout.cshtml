@@ -1,0 +1,73 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>@ViewData["Title"] - MovieDb</title>
+	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+	<!--Google Font-->
+	<link rel="stylesheet" href='css?family=Dosis:400,700,500|Nunito:300,400,600'>
+	<!-- Mobile specific meta -->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="format-detection" content="telephone-no">
+
+	<!-- CSS files -->
+	<link rel="stylesheet" href="~/css/plugins.css">
+	<link rel="stylesheet" href="~/css/style.css">
+</head>
+<body>
+	<header class="ht-header">
+		<div class="container">
+			<nav class="navbar navbar-default navbar-custom">
+				<!-- Brand and toggle get grouped for better mobile display -->
+				<div class="navbar-header logo">
+					<div class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+						<span class="sr-only">Toggle navigation</span>
+						<div id="nav-icon1">
+							<span></span>
+							<span></span>
+							<span></span>
+						</div>
+					</div>
+					<a href="index.html"><img class="logo" src="images/logo1.png" alt="" width="119" height="58"></a>
+				</div>
+				<!-- Collect the nav links, forms, and other content for toggling -->
+				<div class="collapse navbar-collapse flex-parent" id="bs-example-navbar-collapse-1">
+					<ul class="nav navbar-nav flex-child-menu menu-left">
+						<li class="hidden">
+							<a href="#page-top"></a>
+						</li>
+						<li>
+							<a class="btn btn-default" asp-area="" asp-controller="Home" asp-action="Index">Home</i></a>
+						</li>
+					</ul>
+					<ul class="nav navbar-nav flex-child-menu menu-right">
+						<partial name="_LoginPartial" />
+					</ul>
+
+
+				</div>
+				<!-- /.navbar-collapse -->
+			</nav>
+		</div>
+	</header>
+
+	<div class="container">
+		@RenderBody()
+	</div>
+	
+
+
+
+	<script src="~/lib/jquery/dist/jquery.min.js"></script>
+	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="~/js/site.js" asp-append-version="true"></script>
+	<script src="~/js/custom.js"></script>
+	<script src="~/js/jquery.js"></script>
+	<script src="~/js/plugins.js"></script>
+	<script src="~/js/plugins2.js"></script>
+	@await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
