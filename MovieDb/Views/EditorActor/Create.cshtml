@@ -1,0 +1,58 @@
+﻿@model MovieDb.Models.Dao.ActorDao
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<h1>Create</h1>
+
+<h4>ActorDao</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-controller="EditorActor" asp-action="Create" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>            
+            <div class="form-group" style="margin:20px;">
+                <label asp-for="FullName" class="control-label"></label>
+                <input asp-for="FullName" class="form-control" />
+                <span asp-validation-for="FullName" class="text-danger"></span>
+            </div>
+            <div class="form-group" style="margin:20px;">
+                <label asp-for="Banner" class="control-label"></label>
+                <input type="file" class="form-control-file" id="bannerFileInput" name="bannerFileInput">
+                <span asp-validation-for="Banner" class="text-danger"></span>
+            </div>            
+            <div class="form-group" style="margin:20px;">
+                <label asp-for="Thumbnail" class="control-label"></label>
+                <input type="file" class="form-control-file" id="thumbnailFileInput" name="thumbnailFileInput">
+                <span asp-validation-for="Thumbnail" class="text-danger"></span>
+            </div>
+            <div class="form-group" style="margin:20px;">
+                <label asp-for="PlotKeywords" class="control-label"></label>
+                <input asp-for="PlotKeywords" class="form-control" />
+                <span asp-validation-for="PlotKeywords" class="text-danger"></span>
+            </div>
+            <div class="form-group" style="margin:20px;">
+                <label asp-for="DateOfBirth" class="control-label"></label>
+                <input asp-for="DateOfBirth" class="form-control" />
+                <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+            </div>
+            <div class="form-group" style="margin:20px;">
+                <label asp-for="Country" class="control-label"></label>
+                <input asp-for="Country" class="form-control" />
+                <span asp-validation-for="Country" class="text-danger"></span>
+            </div>
+            <div class="form-group" style="margin:20px;">
+                <label asp-for="Height" class="control-label"></label>
+                <input asp-for="Height" class="form-control" />
+                <span asp-validation-for="Height" class="text-danger"></span>
+            </div>
+            <div class="form-group" style="margin:20px;">
+                <input type="submit" value="Create" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-primary" style="margin-left:20px;">Back to List</a>
+            </div>
+        </form>
+    </div>
+</div>
+

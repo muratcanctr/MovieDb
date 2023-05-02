@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MovieDb.Models.Dao.MovieDao>
+﻿@model IEnumerable<MovieDb.Models.Dao.ActorDao>
 
 @{
     ViewData["Title"] = "Index";
@@ -17,13 +17,10 @@
                 @Html.DisplayNameFor(model => model.ContentId)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Title)
+                @Html.DisplayNameFor(model => model.FullName)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Banner)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Summary)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Thumbnail)
@@ -32,16 +29,16 @@
                 @Html.DisplayNameFor(model => model.PlotKeywords)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.MMPARating)
+                @Html.DisplayNameFor(model => model.DateOfBirth)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.RunTime)
+                @Html.DisplayNameFor(model => model.Country)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ReleaseDate)
+                @Html.DisplayNameFor(model => model.Height)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Actors)
+                @Html.DisplayNameFor(model => model.Movies)
             </th>
             <th></th>
         </tr>
@@ -53,31 +50,28 @@
                 @Html.DisplayFor(modelItem => item.ContentId)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Title)
+                @Html.DisplayFor(modelItem => item.FullName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Banner)
+                <img src="@item.Banner">
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Summary)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Thumbnail)
+                <img src="@item.Thumbnail">
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.PlotKeywords)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.MMPARating)
+                @Html.DisplayFor(modelItem => item.DateOfBirth)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.RunTime)
+                @Html.DisplayFor(modelItem => item.Country)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ReleaseDate)
+                @Html.DisplayFor(modelItem => item.Height)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Actors)
+                @Html.DisplayFor(modelItem => item.Movies)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

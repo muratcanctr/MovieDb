@@ -1,0 +1,62 @@
+﻿@using MovieDb.Data.ViewModels
+@using MovieDb.Models.Dao
+@model PaginatedListViewModel<MovieDao>
+
+<div class="hero common-hero">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="hero-ct">
+					<h1>ALL MOVIE LIST</h1>
+					<ul class="breadcumb">
+						<li class="active"><a asp-controller="Home" asp-action="Index">Home</a></li>
+						<li> <span class="ion-ios-arrow-right"></span> All Movies</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="page-single">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 col-sm-12 col-xs-12">
+				<div class="topbar-filter fw">
+					<p>Found <span>@Model.Count</span> in total</p>					
+				</div>
+				<div class="flex-wrap-movielist mv-grid-fw">
+					@foreach (var item in Model.Items)
+					{
+						<div class="movie-item-style-2 movie-item-style-1">
+						<img src="@item.Banner" alt="">
+						<div class="hvr-inner">
+								<a asp-controller="Movie" asp-action="Details" asp-route-id="@item.Id"> Read more <i class="ion-android-arrow-dropright"></i> </a>
+						</div>
+						<div class="mv-item-infor">
+							<h6><a href="#">@item.Title</a></h6>
+							<p class="rate"><i class="ion-android-star"></i><span>@item.Rating</span> /10</p>
+						</div>
+					</div>	
+					}					
+				</div>
+				<div class="topbar-filter">
+					<div class="pagination2">
+						<span>Page 1 of 2:</span>
+						@if (Model.HasPreviousPage)
+						{
+							<a asp-controller="Movie" asp-action="Index" asp-route-pageNumber="@(Model.PageIndex - 1)"><i class="ion-arrow-left-b"></i></a>
+						}
+						@for (int i = 1; i <= Model.TotalPages; i++)
+						{
+							<a class="@(i == Model.PageIndex ? "active" : "")" asp-controller="Movie" asp-action="Index" asp-route-pageNumber="@i">@i</a>
+						}
+						@if (Model.HasNextPage)
+						{
+							<a asp-controller="Movie" asp-action="Index" asp-route-pageNumber="@(Model.PageIndex + 1)"><i class="ion-arrow-right-b"></i></a>
+						}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

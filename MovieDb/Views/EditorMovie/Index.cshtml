@@ -26,7 +26,7 @@
                 @Html.DisplayNameFor(model => model.Summary)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Thumbnail)
+                @Html.DisplayNameFor(model => model.Trailer)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.PlotKeywords)
@@ -65,7 +65,7 @@
                         @Html.DisplayFor(modelItem => item.Summary)
                     </td>
                     <td>
-                        <img src="@item.Thumbnail">
+                        @Html.DisplayFor(modelItem => item.Trailer)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.PlotKeywords)

@@ -21,6 +21,8 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.R
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IFileUploadService, FileUploadService>();
 builder.Services.AddScoped<IEditorMovieService, EditorMovieService>();
+builder.Services.AddScoped<IEditorActorService, EditorActorService>();
+builder.Services.AddScoped<IMovieService, MovieService>();
 builder.Services.AddScoped<ApplicationDbContext>();
 
 var app = builder.Build();

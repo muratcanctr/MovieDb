@@ -11,19 +11,23 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-controller="EditorMovie" asp-action="Create" method="post" enctype="multipart/form-data">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>            
-            <div class="form-group">
+        <form asp-controller="EditorMovie" asp-action="Edit" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input asp-for="movie.ContentId" type="hidden" class="form-control" />
+            <input asp-for="movie.Id" type="hidden" class="form-control" />
+            <input asp-for="movie.Actors" type="hidden" class="form-control" />
+            <div class="form-group"style="margin:20px;">
                 <label asp-for="movie.Title" class="control-label"></label>
                 <input asp-for="movie.Title" class="form-control" />
                 <span asp-validation-for="movie.Title" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group" style="margin:20px;">
                 <label asp-for="movie.Banner" class="control-label"></label>
                 <input type="file" class="form-control-file" id="bannerFileInput" name="bannerFileInput">
+                <input asp-for="movie.Banner" type="hidden" class="form-control" />
                 <span asp-validation-for="movie.Banner" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group" style="margin:20px;">
                 <label asp-for="movie.Summary" class="control-label"></label>
                 <input asp-for="movie.Summary" class="form-control" />
                 <span asp-validation-for="movie.Summary" class="text-danger"></span>
@@ -33,22 +37,22 @@
                 <input asp-for="movie.Trailer" class="form-control" />
                 <span asp-validation-for="movie.Trailer" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group" style="margin:20px;">
                 <label asp-for="movie.PlotKeywords" class="control-label"></label>
                 <input asp-for="movie.PlotKeywords" class="form-control" />
                 <span asp-validation-for="movie.PlotKeywords" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group" style="margin:20px;">
                 <label asp-for="movie.MMPARating" class="control-label"></label>
                 <input asp-for="movie.MMPARating" class="form-control" />
                 <span asp-validation-for="movie.MMPARating" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group" style="margin:20px;">
                 <label asp-for="movie.RunTime" class="control-label"></label>
                 <input asp-for="movie.RunTime" class="form-control" />
                 <span asp-validation-for="movie.RunTime" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group" style="margin:20px;">
                 <label asp-for="movie.ReleaseDate" class="control-label"></label>
                 <input asp-for="movie.ReleaseDate" class="form-control" />
                 <span asp-validation-for="movie.ReleaseDate" class="text-danger"></span>
@@ -58,8 +62,8 @@
                 <select asp-for="Actors" class="form-control" asp-items="ViewBag.Actors" multiple></select>
                 <span asp-validation-for="Actors" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+            <div class="form-group"style="margin:20px;">
+                <input type="submit" value="Edit" class="btn btn-primary" />
             </div>
         </form>
     </div>
