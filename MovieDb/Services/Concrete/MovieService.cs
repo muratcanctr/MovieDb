@@ -3,6 +3,7 @@ using MovieDb.Data;
 using MovieDb.Data.ViewModels;
 using MovieDb.Models.Dao;
 using MovieDb.Services.Abstract;
+using System.Drawing.Printing;
 
 namespace MovieDb.Services.Concrete
 {
@@ -13,6 +14,12 @@ namespace MovieDb.Services.Concrete
         public MovieService(ApplicationDbContext context)
         {
             _context = context;
+        }
+
+        public async Task AddReview(MovieReviewsDao movieReviews)
+        {
+            await _context.MovieReviews.AddAsync(movieReviews);
+            await _context.SaveChangesAsync();
         }
 
         public Task<List<ActorDao>> GetActors()
@@ -36,6 +43,26 @@ namespace MovieDb.Services.Concrete
             return model;
 
         }
+
+        public async Task<PaginatedListViewModel<MovieReviewsDao>> GetAllReviews(Guid? movieId, int pageNumber, int pageSize)
+        {
+            var data = _context.MovieReviews.AsQueryable();
+            pageSize = 2;
+            
+            var movies = await _context.MovieReviews
+            .Where(x => x.movieContentId == movieId)
+            .OrderBy(x=> x.CreateDate)
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)            
+            .ToListAsync();
+
+            int count = await _context.MovieReviews.CountAsync();
+
+            var model = new PaginatedListViewModel<MovieReviewsDao>(movies, count, pageNumber, pageSize);
+
+            return model;
+        }
+
         public async Task<MovieDao> GetById(int? id)
         {
             if (id == null || _context.Movies == null)

@@ -4629,6 +4629,7 @@ ul {
 .topbar-filter .pagination2 a.active,
 .topbar-filter .pagination2 a:hover {
   color: #dcf836;
+  margin-left: 0px;
 }
 .topbar-filter.fw p {
   padding-right: 600px;
@@ -5522,14 +5523,14 @@ ul {
     margin-left: 30px;
   }
 }
-.blog-detail-ct .comment-form {
+.comment-form {
   margin-top: 50px;
 }
-.blog-detail-ct .comment-form h4 {
+.comment-form h4 {
   margin-bottom: 30px;
 }
-.blog-detail-ct .comment-form form input,
-.blog-detail-ct .comment-form form textarea {
+.comment-form form input,
+.comment-form form textarea {
   font-family: 'Nunito', sans-serif;
   font-size: 12px;
   color: #abb7c4;
@@ -5543,15 +5544,15 @@ ul {
   background: none;
   margin-bottom: 30px;
 }
-.blog-detail-ct .comment-form form input:hover,
-.blog-detail-ct .comment-form form textarea:hover {
+.comment-form form input:hover,
+.comment-form form textarea:hover {
   border: 1px solid #dcf836;
 }
-.blog-detail-ct .comment-form form textarea {
+.comment-form form textarea {
   height: 245px;
   padding: 15px;
 }
-.blog-detail-ct .comment-form form input.submit {
+.comment-form form input.submit {
   background-color: #dd003f;
   padding: 0 45px;
   height: 46px;
@@ -7731,18 +7732,17 @@ p.ceb-single {
 .buster-light .blog-detail-ct .cmt-item a.rep-btn:hover {
   color: #dd003f;
 }
-.buster-light .blog-detail-ct .comment-form form input:not(.submit),
-.buster-light .blog-detail-ct .comment-form form textarea:not(.submit) {
-  background-color: #f6f7f9;
+ .comment-form form input:not(.submit),
+ .comment-form form textarea:not(.submit) {
   border-color: #9ca9b7;
   color: #9ca9b7;
   -webkit-border-radius: 2px;
   -moz-border-radius: 2px;
   border-radius: 2px;
 }
-.buster-light .blog-detail-ct .comment-form form input:not(.submit):hover,
-.buster-light .blog-detail-ct .comment-form form textarea:not(.submit):hover {
-  border-color: #dd003f;
+.comment-form form input:not(.submit):hover,
+.comment-form form textarea:not(.submit):hover {
+  
 }
 .buster-light .userfav_list .movie-item-style-2 .mv-item-infor .describe {
   color: #020d18;

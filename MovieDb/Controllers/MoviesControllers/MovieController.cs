@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using MovieDb.Data.ViewModels;
+using MovieDb.Migrations;
+using MovieDb.Models;
 using MovieDb.Models.Dao;
 using MovieDb.Services.Abstract;
 
@@ -9,11 +12,15 @@ namespace MovieDb.Controllers.MoviesControllers
     {
         private readonly IMovieService _movieService;
         private readonly IEditorActorService _actorService;
+        private readonly IEditorMovieService _editorMovieService;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public MovieController(IMovieService movieService, IEditorActorService actorService)
+        public MovieController(IMovieService movieService, IEditorActorService actorService, IEditorMovieService editorMovieService, UserManager<ApplicationUser> userManager)
         {
             _movieService = movieService;
             _actorService = actorService;
+            _editorMovieService = editorMovieService;
+            _userManager = userManager;
         }
 
         public async Task<IActionResult> Index(int pageNumber, int pageSize)
@@ -35,16 +42,78 @@ namespace MovieDb.Controllers.MoviesControllers
             var movie = new MovieDetailViewModel
             {
                 movieDetails = data,
-                actors = new List<ActorDao>()
+                actors = new List<ActorDao>(),
+                MovieReviews = new MovieReviewViewModel()
             };
             movie.movieDetails = data;
-            var actorIds = data.Actors.Split(",");
+            var actorIds =  data.Actors.Split(",");
             foreach (var item in actorIds)
             {                
                 var data2 = await _actorService.GetByContentId(Guid.Parse(item));
                 movie.actors.Add(data2);
             }
+            var plotKeys = movie.movieDetails.PlotKeywords.Split(",");
+            foreach (var item in plotKeys)
+            {
+                movie.PlotKeys.Add(item);
+            }
+            var allReviews = _movieService.GetAllReviews(movie.movieDetails.ContentId, 1, 5);
+            foreach (var item in allReviews.Result.Items)
+            {
+                movie.MovieReviews.movieReviews.Add(item);
+            }
             return  View(movie);
+        }
+        public async Task<IActionResult> AddReview(Guid userId,string movieCId, string Title,int MovieRating, string message,string movieId)
+        {
+            if (userId != Guid.Empty || movieCId != null || Title != null|| MovieRating != 0||message != null || Title!=""||message!="" )
+            {
+                var movieReview = new MovieReviewsDao()
+                {
+                    CreateDate = DateTime.Now,
+                    userId = userId,
+                    movieContentId = Guid.Parse(movieCId),
+                    Title = Title,
+                    MovieRating = MovieRating,
+                    Review = message
+                };
+                
+                await _movieService.AddReview(movieReview);
+                var movie = new MovieDao();
+                movie = await _movieService.GetById(Int32.Parse(movieId));
+                if (movie != null)
+                {
+                    var allReviews = _movieService.GetAllReviews(movieReview.movieContentId,1,10);
+                    var newRating = ((movie.Rating * allReviews.Result.Count)+MovieRating)/ (allReviews.Result.Count+1);
+                    movie.Rating = newRating;
+                    await _editorMovieService.Update(movie);
+                }
+
+                return RedirectToAction(nameof(Details), new {id=Int32.Parse(movieId)});
+            }            
+            
+            return RedirectToAction(nameof(Details));
+        }
+        public async Task<IActionResult> AllReviews(int id,int pageNumber)
+        {
+            if (id != 0)
+            {
+                var data = await _movieService.GetById(id);
+                var movie = new MovieDetailViewModel
+                {
+                    movieDetails = data,
+                    actors = new List<ActorDao>(),
+                    MovieReviews = new MovieReviewViewModel()
+                };
+                movie.movieDetails = data;
+                ViewBag.Title = data.Title;
+                ViewBag.Trailer = data.Trailer;
+                ViewBag.Banner = data.Banner;
+                ViewBag.ReleaseDate = data.ReleaseDate;
+                var allReviews = await _movieService.GetAllReviews(movie.movieDetails.ContentId, pageNumber, 10);
+                return View(allReviews);
+            }                        
+            return View();
         }
     }
 }

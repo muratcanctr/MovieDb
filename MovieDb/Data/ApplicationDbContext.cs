@@ -16,6 +16,7 @@ namespace MovieDb.Data
 
         public DbSet<MovieDao> Movies { get; set; }
         public DbSet<ActorDao> Actors { get; set; }
+        public DbSet<MovieReviewsDao> MovieReviews { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

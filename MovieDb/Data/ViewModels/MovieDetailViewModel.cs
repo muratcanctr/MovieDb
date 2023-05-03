@@ -6,11 +6,15 @@ namespace MovieDb.Data.ViewModels
     {
         public MovieDao movieDetails;
         public List<ActorDao> actors;
+        public List<string> PlotKeys;
+        public MovieReviewViewModel MovieReviews;
 
         public MovieDetailViewModel()
         {
-            movieDetails =new MovieDao();
+            movieDetails = new MovieDao();
             actors = new List<ActorDao>();
+            PlotKeys = new List<string>();
+            MovieReviews =new MovieReviewViewModel();
         }
     }
 }

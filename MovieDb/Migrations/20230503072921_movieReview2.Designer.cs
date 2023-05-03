@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MovieDb.Data;
 
@@ -11,9 +12,10 @@ using MovieDb.Data;
 namespace MovieDb.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230503072921_movieReview2")]
+    partial class movieReview2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -153,14 +155,14 @@ namespace MovieDb.Migrations
                         {
                             Id = "b74ddd14-6340-4840-95c2-db12554843e5",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "7fb72b41-3e12-4a2f-8482-2469273fad9c",
+                            ConcurrencyStamp = "f6b4f0af-4751-4c13-9d90-158f69fdee5f",
                             Email = "admin@imdbv2.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAEAACcQAAAAEL3PFpL5Rvlrew+cTLIp+GljUc7nqzQC+HTvUQ88wYdmsD+7wQOdhKx7MXtutnmPjQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAENtXK9VHekN/PvYECPUuQsoGOsQnyOhgZLn8V+EzmF/J7urDUjLhk8BJD7vyMgcUlA==",
                             PhoneNumber = "1234567890",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "837525ba-a387-451b-918a-5a9cf62fef5d",
+                            SecurityStamp = "4af7a88f-aaf8-4115-9cbd-03bf6df0e67c",
                             TwoFactorEnabled = false,
                             UserName = "SuperAdmin"
                         });
@@ -431,10 +433,7 @@ namespace MovieDb.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<DateTime>("CreateDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<float>("MovieRating")
+                    b.Property<float>("Rating")
                         .HasColumnType("real");
 
                     b.Property<string>("Review")
