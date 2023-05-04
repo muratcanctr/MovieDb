@@ -36,16 +36,7 @@
 				<div class="movie-single-ct main-content">
 					<h1 class="bd-hd">@Model.movieDetails.Title  <span>@Model.movieDetails.ReleaseDate.Year</span></h1>
 					<div class="social-btn">
-						<a href="#" class="parent-btn"><i class="ion-heart"></i> Add to Favorite</a>
-						<div class="hover-bnt">
-							<a href="#" class="parent-btn"><i class="ion-android-share-alt"></i>share</a>
-							<div class="hvr-item">
-								<a href="#" class="hvr-grow"><i class="ion-social-facebook"></i></a>
-								<a href="#" class="hvr-grow"><i class="ion-social-twitter"></i></a>
-								<a href="#" class="hvr-grow"><i class="ion-social-googleplus"></i></a>
-								<a href="#" class="hvr-grow"><i class="ion-social-youtube"></i></a>
-							</div>
-						</div>		
+						<a asp-controller="FavoriteMovies" asp-action="AddFav" asp-route-movieCId="@Model.movieDetails.ContentId" asp-route-userId="@User.FindFirstValue(ClaimTypes.NameIdentifier)" class="parent-btn"><i class="ion-heart"></i> Add to Favorite</a>
 					</div>
 					@*<div class="movie-rate">
 						<div class="rate">
@@ -73,8 +64,7 @@
 								<li class="active"><a href="#overview">Overview</a></li>
 								<li><a href="#reviews"> Reviews</a></li>
 								<li><a href="#cast">  Cast & Crew </a></li>
-								<li><a href="#media"> Media</a></li> 
-								<li><a href="#moviesrelated"> Related Movies</a></li>                        
+								<li><a href="#media"> Media</a></li>                  
 							</ul>
 						    <div class="tab-content">
 						        <div id="overview" class="tab active">
@@ -115,28 +105,30 @@
 											</div>
 											<div class="title-hd-sm">
 												<h4>User reviews</h4>
-												<a  class="time" asp-controller="Movie" asp-action="AllReviews" asp-route-pageNumber="1" asp-route-id="@Model.movieDetails.Id">See All  Reviews <i class="ion-ios-arrow-right"></i></a>
+												<a  class="time" asp-controller="Movie" asp-action="AllReviews" asp-route-pageNumber="1" asp-route-userId="@User.FindFirstValue(ClaimTypes.NameIdentifier)">See All  Reviews <i class="ion-ios-arrow-right"></i></a>
 											</div>
 											<!-- movie user review -->
-											<div class="mv-user-review-item">
-												<h3>Best Marvel movie in my opinion</h3>
-												<div class="no-star">
-													<i class="ion-android-star"></i>
-													<i class="ion-android-star"></i>
-													<i class="ion-android-star"></i>
-													<i class="ion-android-star"></i>
-													<i class="ion-android-star"></i>
-													<i class="ion-android-star"></i>
-													<i class="ion-android-star"></i>
-													<i class="ion-android-star"></i>
-													<i class="ion-android-star"></i>
-													<i class="ion-android-star last"></i>
-												</div>
-												<p class="time">
-													17 December 2016 by <a href="#"> hawaiipierson</a>
-												</p>
-												<p>This is by far one of my favorite movies from the MCU. The introduction of new Characters both good and bad also makes the movie more exciting. giving the characters more of a back story can also help audiences relate more to different characters better, and it connects a bond between the audience and actors or characters. Having seen the movie three times does not bother me here as it is as thrilling and exciting every time I am watching it. In other words, the movie is by far better than previous movies (and I do love everything Marvel), the plotting is splendid (they really do out do themselves in each film, there are no problems watching it more than once.</p>
+											@if (Model.MovieReviews.movieReviews != null && Model.MovieReviews.movieReviews.Count>0)
+												{
+												<div class="mv-user-review-item">
+												
+													<h3>@Model.MovieReviews.movieReviews[0].Title</h3>
+													<div class="no-star">
+														@for (int i = 0; i < @Model.MovieReviews.movieReviews[0].MovieRating; i++)
+														{
+															<i class="ion-android-star"></i>
+														}
+														@for (int i = 0; i < (10 - @Model.MovieReviews.movieReviews[0].MovieRating); i++)
+														{
+															<i class="ion-android-star last"></i>
+														}	
+													</div>
+													<p class="time">
+														@Model.MovieReviews.movieReviews[0].CreateDate.Day @Model.MovieReviews.movieReviews[0].CreateDate.Month @Model.MovieReviews.movieReviews[0].CreateDate.Year
+													</p>
+													<p>@Model.MovieReviews.movieReviews[0].Review</p>												
 											</div>
+											}
 						            	</div>
 						            	<div class="col-md-4 col-xs-12 col-sm-12">
 						            		@*<div class="sb-it">
@@ -176,6 +168,18 @@
 													}
 						            			</p>
 						            		</div>
+											<div class="sb-it">
+						            			<h6>Genres : </h6>
+						            			<p class="tags">
+													@if (Model.movieDetails.Genres != null && Model.movieDetails.Genres != "")
+													{
+														foreach (var item in Model.Genres)
+														{
+															<span class="time"><a href="#">@item</a></span>
+														}
+													}													
+						            			</p>
+						            		</div>
 						            		<div class="ads">
 												<img src="images/uploads/ads1.png" alt="">
 											</div>
@@ -190,30 +194,33 @@
 						       	 				<h2>@Model.movieDetails.Title</h2>
 							            	</div>							            	
 						            	</div>
-										@foreach (var item in Model.MovieReviews.movieReviews)
+										@if (Model.MovieReviews!= null)
 										{
-											<div class="mv-user-review-item">
-												<div class="user-infor">													
-													<div>
-														<h3>@item.Title</h3>
-														<div class="no-star">
-															@for (int i = 0; i < item.MovieRating; i++)
-															{
-																<i class="ion-android-star"></i>
-															}
-															@for (int i = 0; i < (10 - item.MovieRating); i++)
-															{
-																<i class="ion-android-star last"></i>
-															}	
+											foreach (var item in Model.MovieReviews.movieReviews)
+											{
+												<div class="mv-user-review-item">
+													<div class="user-infor">
+														<div>
+															<h3>@item.Title</h3>
+															<div class="no-star">
+																@for (int i = 0; i < item.MovieRating; i++)
+																{
+																	<i class="ion-android-star"></i>
+																}
+																@for (int i = 0; i < (10 - item.MovieRating); i++)
+																{
+																	<i class="ion-android-star last"></i>
+																}
+															</div>
+															<p class="time">
+																@item.CreateDate.Day @item.CreateDate.Month @item.CreateDate.Year
+															</p>
 														</div>
-														<p class="time">
-															@item.CreateDate.Day @item.CreateDate.Month @item.CreateDate.Year
-														</p>
 													</div>
+													<p>@item.Review</p>
 												</div>
-												<p>@item.Review</p>
-											</div>
-										}
+											}
+										}										
 										@if (SignInManager.IsSignedIn(User)){
 											<div class="comment-form">
 												<h4 class="blog-detail-ct">Leave a comment</h4>
@@ -266,125 +273,50 @@
 						            </div>
 					       	 	</div>
 					       	 	<div id="media" class="tab">
+								@if (Model.MovieMedia != null)
+									{									
 						        	<div class="row">
 						        		<div class="rv-hd">
 						            		<div>
 						            			<h3>Videos & Photos of</h3>
-					       	 					<h2>Skyfall: Quantum of Spectre</h2>
+					       	 					<h2>@Model.movieDetails.Title  </h2>
 						            		</div>
-						            	</div>
+						            	</div>										
 						            	<div class="title-hd-sm">
-											<h4>Videos <span>(8)</span></h4>
+											<h4>Videos</h4>
 										</div>
 										<div class="mvsingle-item media-item">
-											<div class="vd-item">
-												<div class="vd-it">
-													<img class="vd-img" src="images/uploads/vd-item1.jpg" alt="">
-													<a class="fancybox-media hvr-grow" href="https://www.youtube.com/embed/o-0hcF97wy0"><img src="images/uploads/play-vd.png" alt=""></a>
+											@foreach (var item in Model.MovieMedia)
+											{
+												@if (item.MediaType=="video")
+												{
+													<div class="vd-item">
+														<div class="vd-it">
+															<img class="vd-img" src="@item.MovieThumbnail" alt="">
+															<a class="fancybox-media hvr-grow" href="@item.Url"><img src="~/images/uploads/play-vd.png" alt=""></a>
+														</div>
+													<div class="vd-infor">
+															<h6> <a class ="fancybox-media hvr-grow" href="@item.Url">@item.Title</a></h6>
+													</div>
 												</div>
-												<div class="vd-infor">
-													<h6> <a href="#">Trailer:  Watch New Scenes</a></h6>
-													<p class="time"> 1: 31</p>
-												</div>
-											</div>
-											<div class="vd-item">
-												<div class="vd-it">
-													<img class="vd-img" src="images/uploads/vd-item2.jpg" alt="">
-													<a class="fancybox-media hvr-grow" href="https://www.youtube.com/embed/o-0hcF97wy0"><img src="images/uploads/play-vd.png" alt=""></a>
-												</div>
-												<div class="vd-infor">
-													<h6> <a href="#">Featurette: “Avengers Re-Assembled</a></h6>
-													<p class="time"> 1: 03</p>
-												</div>
-											</div>
-											<div class="vd-item">
-												<div class="vd-it">
-													<img class="vd-img" src="images/uploads/vd-item3.jpg" alt="">
-													<a class="fancybox-media hvr-grow" href="https://www.youtube.com/embed/o-0hcF97wy0"><img src="images/uploads/play-vd.png" alt=""></a>
-												</div>
-												<div class="vd-infor">
-													<h6> <a href="#">Interview: Robert Downey Jr</a></h6>
-													<p class="time"> 3:27</p>
-												</div>
-											</div>
-											<div class="vd-item">
-												<div class="vd-it">
-													<img class="vd-img" src="images/uploads/vd-item4.jpg" alt="">
-													<a class="fancybox-media hvr-grow" href="https://www.youtube.com/embed/o-0hcF97wy0"><img src="images/uploads/play-vd.png" alt=""></a>
-												</div>
-												<div class="vd-infor">
-													<h6> <a href="#">Interview: Scarlett Johansson</a></h6>
-													<p class="time"> 3:27</p>
-												</div>
-											</div>
-											<div class="vd-item">
-												<div class="vd-it">
-													<img class="vd-img" src="images/uploads/vd-item1.jpg" alt="">
-													<a class="fancybox-media hvr-grow" href="https://www.youtube.com/embed/o-0hcF97wy0"><img src="images/uploads/play-vd.png" alt=""></a>
-												</div>
-												<div class="vd-infor">
-													<h6> <a href="#">Featurette: Meet Quicksilver & The Scarlet Witch</a></h6>
-													<p class="time"> 1: 31</p>
-												</div>
-											</div>
-											<div class="vd-item">
-												<div class="vd-it">
-													<img class="vd-img" src="images/uploads/vd-item2.jpg" alt="">
-													<a class="fancybox-media hvr-grow" href="https://www.youtube.com/embed/o-0hcF97wy0"><img src="images/uploads/play-vd.png" alt=""></a>
-												</div>
-												<div class="vd-infor">
-													<h6> <a href="#">Interview: Director Joss Whedon</a></h6>
-													<p class="time"> 1: 03</p>
-												</div>
-											</div>
-											<div class="vd-item">
-												<div class="vd-it">
-													<img class="vd-img" src="images/uploads/vd-item3.jpg" alt="">
-													<a class="fancybox-media hvr-grow" href="https://www.youtube.com/embed/o-0hcF97wy0"><img src="images/uploads/play-vd.png" alt=""></a>
-												</div>
-												<div class="vd-infor">
-													<h6> <a href="#">Interview: Mark Ruffalo</a></h6>
-													<p class="time"> 3:27</p>
-												</div>
-											</div>
-											<div class="vd-item">
-												<div class="vd-it">
-													<img class="vd-img" src="images/uploads/vd-item4.jpg" alt="">
-													<a class="fancybox-media hvr-grow" href="https://www.youtube.com/embed/o-0hcF97wy0"><img src="images/uploads/play-vd.png" alt=""></a>
-												</div>
-												<div class="vd-infor">
-													<h6> <a href="#">Official Trailer #2</a></h6>
-													<p class="time"> 3:27</p>
-												</div>
-											</div>
+												}
+													
+											}																					
 										</div>
 										<div class="title-hd-sm">
-											<h4>Photos <span> (21)</span></h4>
+											<h4>Photos </h4>
 										</div>
 										<div class="mvsingle-item">
-											<a class="img-lightbox" data-fancybox-group="gallery" href="images/uploads/image11.jpg"><img src="images/uploads/image1.jpg" alt=""></a>
-											<a class="img-lightbox" data-fancybox-group="gallery" href="images/uploads/image21.jpg"><img src="images/uploads/image2.jpg" alt=""></a>
-											<a class="img-lightbox" data-fancybox-group="gallery" href="images/uploads/image31.jpg"><img src="images/uploads/image3.jpg" alt=""></a>
-											<a class="img-lightbox" data-fancybox-group="gallery" href="images/uploads/image41.jpg"><img src="images/uploads/image4.jpg" alt=""></a>
-											<a class="img-lightbox" data-fancybox-group="gallery" href="images/uploads/image51.jpg"><img src="images/uploads/image5.jpg" alt=""></a>
-											<a class="img-lightbox" data-fancybox-group="gallery" href="images/uploads/image61.jpg"><img src="images/uploads/image6.jpg" alt=""></a>
-											<a class="img-lightbox" data-fancybox-group="gallery" href="images/uploads/image71.jpg"><img src="images/uploads/image7.jpg" alt=""></a>
-											<a class="img-lightbox" data-fancybox-group="gallery" href="images/uploads/image81.jpg"><img src="images/uploads/image8.jpg" alt=""></a>
-											<a class="img-lightbox" data-fancybox-group="gallery" href="images/uploads/image91.jpg"><img src="images/uploads/image9.jpg" alt=""></a>
-											<a class="img-lightbox" data-fancybox-group="gallery" href="images/uploads/image101.jpg"><img src="images/uploads/image10.jpg" alt=""></a>
-											<a class="img-lightbox" data-fancybox-group="gallery" href="images/uploads/image111.jpg"><img src="images/uploads/image1-1.jpg" alt=""></a>
-											<a class="img-lightbox" data-fancybox-group="gallery" href="images/uploads/image121.jpg"><img src="images/uploads/image12.jpg" alt=""></a>
-											<a class="img-lightbox" data-fancybox-group="gallery" href="images/uploads/image131.jpg"><img src="images/uploads/image13.jpg" alt=""></a>
-											<a class="img-lightbox" data-fancybox-group="gallery" href="images/uploads/image141.jpg"><img src="images/uploads/image14.jpg" alt=""></a>
-											<a class="img-lightbox" data-fancybox-group="gallery" href="images/uploads/image151.jpg"><img src="images/uploads/image15.jpg" alt=""></a>
-											<a class="img-lightbox" data-fancybox-group="gallery" href="images/uploads/image161.jpg"><img src="images/uploads/image16.jpg" alt=""></a>
-											<a class="img-lightbox" data-fancybox-group="gallery" href="images/uploads/image171.jpg"><img src="images/uploads/image17.jpg" alt=""></a>
-											<a class="img-lightbox" data-fancybox-group="gallery" href="images/uploads/image181.jpg"><img src="images/uploads/image18.jpg" alt=""></a>
-											<a class="img-lightbox" data-fancybox-group="gallery" href="images/uploads/image191.jpg"><img src="images/uploads/image19.jpg" alt=""></a>
-											<a class="img-lightbox" data-fancybox-group="gallery" href="images/uploads/image201.jpg"><img src="images/uploads/image20.jpg" alt=""></a>
-											<a class="img-lightbox" data-fancybox-group="gallery" href="images/uploads/image211.jpg"><img src="images/uploads/image2-1.jpg" alt=""></a>
+											@foreach (var item in Model.MovieMedia)
+											{
+												@if (item.MediaType == "photo")
+												{
+													<a class="img-lightbox" data-fancybox-group="gallery" href="@item.Url"><img src="@item.Url" alt=""></a>
+												}
+											}
 										</div>
 						        	</div>
+									}
 					       	 	</div>					       	 	
 						    </div>
 						</div>
@@ -394,3 +326,4 @@
 		</div>
 	</div>
 </div>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/tr_TR/sdk.js#xfbml=1&version=v16.0" nonce="QXRiC28a"></script>

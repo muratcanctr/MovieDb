@@ -27,6 +27,14 @@ namespace MovieDb.Services.Concrete
             throw new NotImplementedException();
         }
 
+        public async Task<List<MovieMediaDao>> GetAllMovieMedia(Guid? movieId)
+        {
+            var media = await _context.MovieMedia
+            .Where(x => x.MovieContentId == movieId)
+            .ToListAsync();
+            return media;
+        }
+
         public async Task<PaginatedListViewModel<MovieDao>> GetAllMovies(int pageNumber, int pageSize)
         {
             var data = _context.Movies.AsQueryable();

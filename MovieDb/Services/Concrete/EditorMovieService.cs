@@ -67,5 +67,12 @@ namespace MovieDb.Services.Concrete
 
             return response;
         }
+
+        public async Task<MovieDao> GetByContentId(string contentId)
+        {
+            var movieDao = await _context.Movies
+                .FirstOrDefaultAsync(m => m.ContentId == Guid.Parse(contentId));
+            return  movieDao;
+        }
     }
 }

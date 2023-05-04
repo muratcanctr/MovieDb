@@ -7,7 +7,9 @@ namespace MovieDb.Data.ViewModels
         public MovieDao movieDetails;
         public List<ActorDao> actors;
         public List<string> PlotKeys;
+        public List<string> Genres;
         public MovieReviewViewModel MovieReviews;
+        public List<MovieMediaDao> MovieMedia;
 
         public MovieDetailViewModel()
         {
@@ -15,6 +17,8 @@ namespace MovieDb.Data.ViewModels
             actors = new List<ActorDao>();
             PlotKeys = new List<string>();
             MovieReviews =new MovieReviewViewModel();
+            MovieMedia = new List<MovieMediaDao>();
+            Genres = new List<string>();
         }
     }
 }

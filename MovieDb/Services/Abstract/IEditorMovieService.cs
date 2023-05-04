@@ -6,6 +6,7 @@ namespace MovieDb.Services.Abstract
     public interface IEditorMovieService
     {
         Task<MovieDao> GetById(int? id);
+        Task<MovieDao> GetByContentId(string contentId);
         Task<List<MovieDao>> GetAll();
         Task Add(MovieDao movie);
         Task Update(MovieDao movie);

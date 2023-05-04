@@ -32,6 +32,27 @@
                 <label asp-for="movie.Trailer" class="control-label"></label>
                 <input asp-for="movie.Trailer" class="form-control" />
                 <span asp-validation-for="movie.Trailer" class="text-danger"></span>
+            </div><div class="form-group">
+                <label asp-for="movie.Genres" class="control-label"></label><label for="movie-genre">Select a movie genre:</label>
+                <select id="movie-genre" name="genres" multiple>
+                    <option value="action">Action</option>
+                    <option value="adventure">Adventure</option>
+                    <option value="animation">Animation</option>
+                    <option value="comedy">Comedy</option>
+                    <option value="crime">Crime</option>
+                    <option value="documentary">Documentary</option>
+                    <option value="drama">Drama</option>
+                    <option value="family">Family</option>
+                    <option value="fantasy">Fantasy</option>
+                    <option value="horror">Horror</option>
+                    <option value="musical">Musical</option>
+                    <option value="mystery">Mystery</option>
+                    <option value="romance">Romance</option>
+                    <option value="sci-fi">Science Fiction</option>
+                    <option value="thriller">Thriller</option>
+                    <option value="western">Western</option>
+                </select>
+                <span asp-validation-for="movie.Genres" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="movie.PlotKeywords" class="control-label"></label>

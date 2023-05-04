@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MovieDb.Data;
 
@@ -11,9 +12,10 @@ using MovieDb.Data;
 namespace MovieDb.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230504071549_vcdsxa")]
+    partial class vcdsxa
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -153,14 +155,14 @@ namespace MovieDb.Migrations
                         {
                             Id = "b74ddd14-6340-4840-95c2-db12554843e5",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "2e23a169-28a5-4b5e-aa20-45aca1d172f1",
+                            ConcurrencyStamp = "226f789a-3d33-4b72-babc-53aaa262e261",
                             Email = "admin@imdbv2.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAEAACcQAAAAEOkIPgW3lJIF1poyj2XLJou4KVRHCvHjKsop13DQ9A2IqJQuIB4SdMf3EYSeWgpCXw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEPpHSdY7oZfz8C4TZDBjr36GOf+UQHfo9h7Tj88TLMEovLmLdeGn+18SAo1Z+yEpVg==",
                             PhoneNumber = "1234567890",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "e8b24c1f-d928-4622-9023-d4e6387960d6",
+                            SecurityStamp = "b844eea4-a1d9-4443-8bba-b02ec4f7fb90",
                             TwoFactorEnabled = false,
                             UserName = "SuperAdmin"
                         });
@@ -390,9 +392,6 @@ namespace MovieDb.Migrations
                     b.Property<Guid?>("ContentId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Genres")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("MMPARating")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -444,17 +443,12 @@ namespace MovieDb.Migrations
                     b.Property<Guid>("MovieContentId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("MovieName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("MovieThumbnail")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Url")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -493,25 +487,6 @@ namespace MovieDb.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("MovieReviews");
-                });
-
-            modelBuilder.Entity("MovieDb.Models.Dao.UserFavoriteMoviesDao", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<Guid>("movieContentId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("userId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("FavoriteMoviesDaos");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

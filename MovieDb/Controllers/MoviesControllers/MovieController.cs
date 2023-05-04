@@ -39,30 +39,42 @@ namespace MovieDb.Controllers.MoviesControllers
         {
             
             var data = await _movieService.GetById(id);
-            var movie = new MovieDetailViewModel
+            if (data != null)
+            {
+                var movie = new MovieDetailViewModel
             {
                 movieDetails = data,
                 actors = new List<ActorDao>(),
                 MovieReviews = new MovieReviewViewModel()
             };
             movie.movieDetails = data;
-            var actorIds =  data.Actors.Split(",");
-            foreach (var item in actorIds)
-            {                
-                var data2 = await _actorService.GetByContentId(Guid.Parse(item));
-                movie.actors.Add(data2);
-            }
+            
+                var actorIds = data.Actors.Split(",");
+                foreach (var item in actorIds)
+                {
+                    var data2 = await _actorService.GetByContentId(Guid.Parse(item));
+                    movie.actors.Add(data2);
+                }
+                       
             var plotKeys = movie.movieDetails.PlotKeywords.Split(",");
             foreach (var item in plotKeys)
             {
                 movie.PlotKeys.Add(item);
+            }
+            var genres = movie.movieDetails.Genres.Split(",");
+            foreach (var item in genres)
+            {
+                movie.Genres.Add(item);
             }
             var allReviews = _movieService.GetAllReviews(movie.movieDetails.ContentId, 1, 5);
             foreach (var item in allReviews.Result.Items)
             {
                 movie.MovieReviews.movieReviews.Add(item);
             }
+                movie.MovieMedia = await _movieService.GetAllMovieMedia(movie.movieDetails.ContentId);
             return  View(movie);
+            }
+            return View();
         }
         public async Task<IActionResult> AddReview(Guid userId,string movieCId, string Title,int MovieRating, string message,string movieId)
         {

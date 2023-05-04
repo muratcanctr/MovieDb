@@ -10,5 +10,6 @@ namespace MovieDb.Services.Abstract
         Task<List<ActorDao>> GetActors();
         Task AddReview(MovieReviewsDao movieReviews);
         Task<PaginatedListViewModel<MovieReviewsDao>> GetAllReviews(Guid? movieId, int pageNumber, int pageSize);
+        Task<List<MovieMediaDao>> GetAllMovieMedia(Guid? movieId);
     }
 }

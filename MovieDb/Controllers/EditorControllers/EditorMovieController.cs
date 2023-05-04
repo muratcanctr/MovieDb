@@ -50,11 +50,12 @@ namespace MovieDb.Controllers.EditorControllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(MovieViewModel movieVM, [FromForm] IFormFile bannerFileInput, [FromForm] IFormFile thumbnailFileInput)
+        public async Task<IActionResult> Create(MovieViewModel movieVM, [FromForm] IFormFile bannerFileInput,  List<string> genres)
         {
             if (ModelState.IsValid)
             {
                 movieVM.movie.ContentId = Guid.NewGuid();
+                movieVM.movie.Genres = String.Join(",", genres);
                
                 movieVM.movie.Actors = string.Join(",", movieVM.Actors.Select(g => g.ToString()));
 
