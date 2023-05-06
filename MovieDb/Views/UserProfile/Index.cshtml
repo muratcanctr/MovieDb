@@ -1,0 +1,113 @@
+﻿@model ApplicationUser
+
+<div class="hero user-hero">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="hero-ct">
+					<h1 style="margin-left:10px;">@Model.FirstName @Model.LastName’s profile</h1>
+					<ul class="breadcumb">
+						<li class="active"><a href="#">Home</a></li>
+						<li> <span class="ion-ios-arrow-right"></span>Profile</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="page-single">
+	<div class="container">
+		<div class="row ipad-width">
+			<div class="col-md-3 col-sm-12 col-xs-12">
+				<div class="user-information">
+					<div class="user-img">
+						@if (!String.IsNullOrEmpty(Model.ProfilePicture))
+						{
+							<a href="#"><img src="@Model.ProfilePicture" alt=""><br></a>
+						}
+						<form asp-action="ChangeProfileAvatar" method="post" enctype="multipart/form-data" id="avatarForm">
+							<a asp-controller="UserProfile" asp-action="ChangeProfileAvatar" class="redbtn" onclick="document.getElementById('fileInput').click(); return false;">Change avatar</a>
+							<input type="file" id="fileInput" name="fileInput" style="display:none;" onchange="submitForm()" />
+						</form>
+						
+					</div>
+					<div class="user-fav">
+						<p>Account Details</p>
+						<ul>
+							<li class="active"><a href="userprofile.html">Profile</a></li>
+							<li><a asp-action="FavoriteMovies">Favorite movies</a></li>
+							<li><a href="userrate.html">Rated movies</a></li>
+						</ul>
+					</div>
+					<div class="user-fav">
+						<p>Others</p>
+						<ul>
+							<li><a asp-controller="UserProfile" asp-action="Logout">Log out</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-9 col-sm-12 col-xs-12">
+				<div class="form-style-1 user-pro" action="">
+					<form asp-action="UpdateUser" class="user">
+						<h4>01. Profile details</h4>
+						<div class="row">
+							<div class="col-md-6 form-it">
+								<label>Username</label>
+								<input type="text" name="username" placeholder="@Model.UserName">
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6 form-it">
+								<label>First Name</label>
+								<input type="text" name="firstName" placeholder="@Model.FirstName ">
+							</div>
+							<div class="col-md-6 form-it">
+								<label>Last Name</label>
+								<input type="text" name="lastName" placeholder="@Model.LastName">
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-2">
+								<input class="submit" type="submit" value="save">
+							</div>
+						</div>
+					</form>
+
+					<form asp-action="ChangePassword" class="password">
+						<h4>02. Change password</h4>
+						<div class="row">
+							<div class="col-md-6 form-it">
+								<label>Old Password</label>
+								<input type="text" name="oldPassword" placeholder="**********">
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6 form-it">
+								<label>New Password</label>
+								<input type="text" name="newPassword" placeholder="***************">
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6 form-it">
+								<label>Confirm New Password</label>
+								<input type="text" name="confirmPassword" placeholder="*************** ">
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-2">
+								<input class="submit" type="submit" value="change">
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	function submitForm() {
+		document.getElementById('avatarForm').submit();
+	}
+</script>

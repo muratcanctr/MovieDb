@@ -153,14 +153,14 @@ namespace MovieDb.Migrations
                         {
                             Id = "b74ddd14-6340-4840-95c2-db12554843e5",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "2e23a169-28a5-4b5e-aa20-45aca1d172f1",
+                            ConcurrencyStamp = "b6fb181c-3a6b-40db-9a1c-a9b7897e951f",
                             Email = "admin@imdbv2.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAEAACcQAAAAEOkIPgW3lJIF1poyj2XLJou4KVRHCvHjKsop13DQ9A2IqJQuIB4SdMf3EYSeWgpCXw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEBL2wthYlE8c6KXijzAx1k0us37Du9WSoSkjytPHwPOpFn70XUrxAdBBrIpQ895QOg==",
                             PhoneNumber = "1234567890",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "e8b24c1f-d928-4622-9023-d4e6387960d6",
+                            SecurityStamp = "796bb14f-d99b-4295-98e0-360004481607",
                             TwoFactorEnabled = false,
                             UserName = "SuperAdmin"
                         });
@@ -301,8 +301,8 @@ namespace MovieDb.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<byte[]>("ProfilePicture")
-                        .HasColumnType("varbinary(max)");
+                    b.Property<string>("ProfilePicture")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");

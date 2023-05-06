@@ -20,12 +20,20 @@ namespace MovieDb.Controllers.UserProfileControllers
 			_movieService = movieService;
 		}
 
-		public IActionResult Index()
-		{
-			return View();
-		}
+        public async Task<IActionResult> Index(int pageNumber, int pageSize)
+        {
+            if (pageNumber == 0)
+            {
+                pageNumber = 1;
+            }
+            if (pageSize == 0)
+            {
+                pageSize = 1;
+            }
+            return View(await _movieService.GetAllMovies(pageNumber, pageSize));
+        }
 
-		public IActionResult AddFav(string movieCId, string userId)
+        public IActionResult AddFav(string movieCId, string userId)
 		{			
 			if (!string.IsNullOrEmpty(userId) || !string.IsNullOrEmpty(movieCId))
 			{

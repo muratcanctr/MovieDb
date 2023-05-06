@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MovieDb.Data;
 using MovieDb.Data.ViewModels;
+using MovieDb.Models;
 using MovieDb.Models.Dao;
 using MovieDb.Services.Abstract;
 using System.Drawing.Printing;
@@ -85,6 +86,27 @@ namespace MovieDb.Services.Concrete
                 return null;
             }
             return movieDao;
+        }
+        public async Task<PaginatedListViewModel<MovieDao>> GetFavMovies(ApplicationUser user,int pageNumber)
+        {
+            var userId = user.Id; // Replace with the actual user ID
+            var favoriteMoviesIds = await _context.FavoriteMoviesDaos
+                .Where(fm => fm.userId == Guid.Parse(userId))
+                .ToListAsync();
+            var favMovies = new List<MovieDao>();
+            foreach (var item in favoriteMoviesIds)
+            {
+                var ıd = item.movieContentId;
+                favMovies.Add(await _context.Movies.FirstOrDefaultAsync(m => m.ContentId == ıd));
+            }
+            var movies = favMovies.Skip((pageNumber - 1) * 1).Take(1).ToList();
+
+            int count =  favMovies.Count();
+
+            var model = new PaginatedListViewModel<MovieDao>(movies, count, pageNumber, 1);
+
+            return model;
+
         }
     }
 }
