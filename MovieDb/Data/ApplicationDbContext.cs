@@ -18,6 +18,7 @@ namespace MovieDb.Data
         public DbSet<ActorDao> Actors { get; set; }
         public DbSet<MovieReviewsDao> MovieReviews { get; set; }
         public DbSet<MovieMediaDao> MovieMedia { get; set; }
+        public DbSet<ActorMediaDao> ActorMedia { get; set; }
         public DbSet<UserFavoriteMoviesDao> FavoriteMoviesDaos { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {

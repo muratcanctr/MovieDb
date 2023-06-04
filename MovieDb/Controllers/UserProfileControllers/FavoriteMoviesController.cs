@@ -35,7 +35,7 @@ namespace MovieDb.Controllers.UserProfileControllers
 
         public IActionResult AddFav(string movieCId, string userId)
 		{			
-			if (!string.IsNullOrEmpty(userId) || !string.IsNullOrEmpty(movieCId))
+			if (!string.IsNullOrEmpty(userId) && !string.IsNullOrEmpty(movieCId))
 			{
 				var checkData = _context.FavoriteMoviesDaos.Where(x => x.userId == Guid.Parse(userId) && x.movieContentId == Guid.Parse(movieCId));
 				if (checkData.Any())

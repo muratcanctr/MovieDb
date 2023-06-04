@@ -56,7 +56,7 @@ namespace MovieDb.Services.Concrete
         public async Task<PaginatedListViewModel<MovieReviewsDao>> GetAllReviews(Guid? movieId, int pageNumber, int pageSize)
         {
             var data = _context.MovieReviews.AsQueryable();
-            pageSize = 2;
+            pageSize = 5;
             
             var movies = await _context.MovieReviews
             .Where(x => x.movieContentId == movieId)
@@ -99,7 +99,7 @@ namespace MovieDb.Services.Concrete
                 var ıd = item.movieContentId;
                 favMovies.Add(await _context.Movies.FirstOrDefaultAsync(m => m.ContentId == ıd));
             }
-            var movies = favMovies.Skip((pageNumber - 1) * 1).Take(1).ToList();
+            var movies = favMovies.Skip((pageNumber - 1) * 20).Take(20).ToList();
 
             int count =  favMovies.Count();
 

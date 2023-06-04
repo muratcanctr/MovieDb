@@ -1,4 +1,4 @@
-﻿@model MovieDb.Models.Dao.ActorDao
+﻿@model MovieDb.Data.ViewModels.ActorViewModel
 
 @{
     ViewData["Title"] = "Edit";
@@ -10,46 +10,52 @@
 <h4>Actor</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
-        <input asp-for="ContentId" type="hidden" class="form-control" />
+    <div class="col-md-4">        
         <form asp-controller="EditorActor" asp-action="Edit" method="post" enctype="multipart/form-data">
+            <input asp-for="actor.ContentId" type="hidden" class="form-control" />
+            <input asp-for="actor.Id" type="hidden" class="form-control" />
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group" style="margin:20px;">
-                <label asp-for="FullName" class="control-label"></label>
-                <input asp-for="FullName" class="form-control" />
-                <span asp-validation-for="FullName" class="text-danger"></span>
+                <label asp-for="actor.FullName" class="control-label"></label>
+                <input asp-for="actor.FullName" class="form-control" />
+                <span asp-validation-for="actor.FullName" class="text-danger"></span>
             </div>
             <div class="form-group" style="margin:20px;">
-                <label asp-for="Banner" class="control-label"></label>
+                <label asp-for="actor.Banner" class="control-label"></label>
                 <input type="file" class="form-control-file" id="bannerFileInput" name="bannerFileInput">
-                <input asp-for="Banner" type="hidden" class="form-control" />
-                <span asp-validation-for="Banner" class="text-danger"></span>
+                <input asp-for="actor.Banner" type="hidden" class="form-control" />
+                <span asp-validation-for="actor.Banner" class="text-danger"></span>
             </div>
             <div class="form-group" style="margin:20px;">
-                <label asp-for="Thumbnail" class="control-label"></label>
+                <label asp-for="actor.Thumbnail" class="control-label"></label>
                 <input type="file" class="form-control-file" id="thumbnailFileInput" name="thumbnailFileInput">
-                <input asp-for="Thumbnail" type="hidden" class="form-control" />
-                <span asp-validation-for="Thumbnail" class="text-danger"></span>
+                <input asp-for="actor.Thumbnail" type="hidden" class="form-control" />
+                <span asp-validation-for="actor.Thumbnail" class="text-danger"></span>
             </div>
             <div class="form-group" style="margin:20px;">
-                <label asp-for="PlotKeywords" class="control-label"></label>
-                <input asp-for="PlotKeywords" class="form-control" />
-                <span asp-validation-for="PlotKeywords" class="text-danger"></span>
+                <label asp-for="actor.PlotKeywords" class="control-label"></label>
+                <input asp-for="actor.PlotKeywords" class="form-control" />
+                <span asp-validation-for="actor.PlotKeywords" class="text-danger"></span>
             </div>
             <div class="form-group" style="margin:20px;">
-                <label asp-for="DateOfBirth" class="control-label"></label>
-                <input asp-for="DateOfBirth" class="form-control" />
-                <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+                <label asp-for="actor.DateOfBirth" class="control-label"></label>
+                <input asp-for="actor.DateOfBirth" class="form-control" />
+                <span asp-validation-for="actor.DateOfBirth" class="text-danger"></span>
             </div>
             <div class="form-group" style="margin:20px;">
-                <label asp-for="Country" class="control-label"></label>
-                <input asp-for="Country" class="form-control" />
-                <span asp-validation-for="Country" class="text-danger"></span>
+                <label asp-for="actor.Country" class="control-label"></label>
+                <input asp-for="actor.Country" class="form-control" />
+                <span asp-validation-for="actor.Country" class="text-danger"></span>
             </div>
             <div class="form-group" style="margin:20px;">
-                <label asp-for="Height" class="control-label"></label>
-                <input asp-for="Height" class="form-control" />
-                <span asp-validation-for="Height" class="text-danger"></span>
+                <label asp-for="actor.Height" class="control-label"></label>
+                <input asp-for="actor.Height" class="form-control" />
+                <span asp-validation-for="actor.Height" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Movies" class="control-label"></label>
+                <select asp-for="Movies" class="form-control" asp-items="ViewBag.Movies" multiple></select>
+                <span asp-validation-for="Movies" class="text-danger"></span>
             </div>
             <div class="form-group" style="margin:20px;">
                 <input type="submit" value="Edit" class="btn btn-primary" />

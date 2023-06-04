@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MovieDb.Data;
+using MovieDb.Data.ViewModels;
 using MovieDb.Models.Dao;
 using MovieDb.Services.Abstract;
 using MovieDb.Services.Concrete;
@@ -15,14 +16,16 @@ namespace MovieDb.Controllers.EditorControllers
     public class EditorActorController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IEditorMovieService _movieService;
         private readonly IEditorActorService _editorActorService;
         private readonly IFileUploadService _fileUploadService;
 
-        public EditorActorController(ApplicationDbContext context, IEditorActorService editorActorService, IFileUploadService fileUploadService)
+        public EditorActorController(ApplicationDbContext context, IEditorActorService editorActorService, IFileUploadService fileUploadService, IEditorMovieService movieService)
         {
             _context = context;
             _editorActorService = editorActorService;
             _fileUploadService = fileUploadService;
+            _movieService = movieService;
         }
 
         // GET: EditorActor
@@ -39,8 +42,11 @@ namespace MovieDb.Controllers.EditorControllers
         }
 
         // GET: EditorActor/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            var movieDropdownsData = await _movieService.GetNewMovieDropdownsValues();
+            ViewBag.Actors = new SelectList(movieDropdownsData.Actors, "ContentId", "FullName");
+            ViewBag.Movies = new SelectList(movieDropdownsData.Movies, "ContentId", "Title");
             return View();
         }
 
@@ -49,26 +55,32 @@ namespace MovieDb.Controllers.EditorControllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("FullName,PlotKeywords,DateOfBirth,Country,Height")] ActorDao actorDao,[FromForm] IFormFile bannerFileInput, [FromForm] IFormFile thumbnailFileInput)
+        public async Task<IActionResult> Create(ActorViewModel actorVm, [FromForm] IFormFile bannerFileInput, [FromForm] IFormFile thumbnailFileInput)
         {
+            
             if (ModelState.IsValid)
             {
-                actorDao.ContentId = Guid.NewGuid();
-                actorDao.Banner = _fileUploadService.UploadFile(bannerFileInput);
-                actorDao.Thumbnail = _fileUploadService.UploadFile(thumbnailFileInput);
+                actorVm.actor.ContentId = Guid.NewGuid();
+                actorVm.actor.Banner = _fileUploadService.UploadFile(bannerFileInput);
+                actorVm.actor.Thumbnail = _fileUploadService.UploadFile(thumbnailFileInput);
+                actorVm.actor.Movies = string.Join(",", actorVm.Movies.Where(x=> x!=null).Select(g => g.ToString()));
 
-                await _editorActorService.Add(actorDao);
+                await _editorActorService.Add(actorVm.actor);
                 return RedirectToAction(nameof(Index));
             }
             var errors = ModelState.Values.SelectMany(v => v.Errors);
-            return View(actorDao);
+            return View(actorVm.actor);
         }
 
         // GET: EditorActor/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            var actorDao =await _editorActorService.GetById(id);
-            return View(actorDao);
+            var movieDropdownsData = await _movieService.GetNewMovieDropdownsValues();
+            ViewBag.Actors = new SelectList(movieDropdownsData.Actors, "ContentId", "FullName");
+            ViewBag.Movies = new SelectList(movieDropdownsData.Movies, "ContentId", "Title");
+            var actorVm = new ActorViewModel();
+            actorVm.actor = await _editorActorService.GetById(id);
+            return View(actorVm);
         }
 
         // POST: EditorActor/Edit/5
@@ -76,9 +88,9 @@ namespace MovieDb.Controllers.EditorControllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,FullName,Banner,Thumbnail,PlotKeywords,DateOfBirth,Country,Height,Movies")] ActorDao actorDao, [FromForm] IFormFile? bannerFileInput, [FromForm] IFormFile? thumbnailFileInput)
+        public async Task<IActionResult> Edit(int id, ActorViewModel actorVm, [FromForm] IFormFile? bannerFileInput, [FromForm] IFormFile? thumbnailFileInput)
         {
-            if (id != actorDao.Id)
+            if (id != actorVm.actor.Id)
             {
                 return NotFound();
             }
@@ -86,20 +98,20 @@ namespace MovieDb.Controllers.EditorControllers
             {
                 try
                 {
-                    if (bannerFileInput != null)
+                    if (actorVm.Movies!= null)
                     {
-                        actorDao.Banner = _fileUploadService.UploadFile(bannerFileInput);
+                        actorVm.actor.Movies = string.Join(",", actorVm.Movies.Where(x => x != null).Select(g => g.ToString()));
                     }
                     if (thumbnailFileInput != null)
                     {
-                        actorDao.Thumbnail = _fileUploadService.UploadFile(thumbnailFileInput);
+                        actorVm.actor.Thumbnail = _fileUploadService.UploadFile(thumbnailFileInput);
                     }                  
                     
-                    await _editorActorService.Update(actorDao);
+                    await _editorActorService.Update(actorVm.actor);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ActorDaoExists(actorDao.Id))
+                    if (!ActorDaoExists(actorVm.actor.Id))
                     {
                         return NotFound();
                     }
@@ -111,7 +123,7 @@ namespace MovieDb.Controllers.EditorControllers
                 return RedirectToAction(nameof(Index));
             }
             var errors = ModelState.Values.SelectMany(v => v.Errors);
-            return View(actorDao);
+            return View(actorVm);
         }
 
         // GET: EditorActor/Delete/5

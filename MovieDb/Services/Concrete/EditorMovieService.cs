@@ -62,7 +62,8 @@ namespace MovieDb.Services.Concrete
         {
             var response = new NewMovieDropdownsVM()
             {
-                Actors = await _context.Actors.OrderBy(n => n.FullName).ToListAsync()
+                Actors = await _context.Actors.OrderBy(n => n.FullName).ToListAsync(),
+                Movies = await _context.Movies.OrderBy(n => n.Title).ToListAsync(),
             };
 
             return response;

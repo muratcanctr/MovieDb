@@ -31,7 +31,7 @@ namespace MovieDb.Controllers.MoviesControllers
             }
             if (pageSize == 0)
             {
-                pageSize = 1;
+                pageSize = 10;
             }            
             return  View(await _movieService.GetAllMovies(pageNumber, pageSize));
         }

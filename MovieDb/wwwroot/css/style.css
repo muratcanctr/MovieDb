@@ -6256,7 +6256,6 @@ ul {
   margin-bottom: 30px;
 }
 .movie-single .movie-single-ct .mvcast-item .cast-it .cast-left {
-  width: 60%;
   display: -webkit-flex;
   display: -moz-box;
   display: -ms-flexbox;

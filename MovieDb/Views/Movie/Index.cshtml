@@ -30,10 +30,10 @@
 						<div class="movie-item-style-2 movie-item-style-1">
 						<img src="@item.Banner" alt="">
 						<div class="hvr-inner">
-								<a asp-controller="Movie" asp-action="Details" asp-route-id="@item.Id"> Read more <i class="ion-android-arrow-dropright"></i> </a>
+								<a  asp-action="Details" asp-route-id="@item.Id"> Read more <i class="ion-android-arrow-dropright"></i> </a>
 						</div>
 						<div class="mv-item-infor">
-							<h6><a href="#">@item.Title</a></h6>
+							<h6><a  asp-action="Details" asp-route-id="@item.Id">@item.Title</a></h6>
 							<p class="rate"><i class="ion-android-star"></i><span>@item.Rating.ToString("0.0")</span> /10</p>
 						</div>
 					</div>	

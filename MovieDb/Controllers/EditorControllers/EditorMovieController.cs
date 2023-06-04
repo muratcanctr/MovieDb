@@ -81,7 +81,7 @@ namespace MovieDb.Controllers.EditorControllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, MovieViewModel movieVM, [FromForm] IFormFile? bannerFileInput)
+        public async Task<IActionResult> Edit(int id, MovieViewModel movieVM, [FromForm] IFormFile? bannerFileInput,List<string> genres)
         {
             if (id != movieVM.movie.Id)
             {
@@ -94,6 +94,10 @@ namespace MovieDb.Controllers.EditorControllers
                     if (movieVM.Actors!=null)
                     {
                         movieVM.movie.Actors = string.Join(",", movieVM.Actors.Select(g => g.ToString()));
+                    }
+                    if (genres!=null)
+                    {
+                        movieVM.movie.Genres = String.Join(",", genres);
                     }                    
                     if (bannerFileInput != null)
                     {
