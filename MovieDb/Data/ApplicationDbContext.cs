@@ -19,6 +19,9 @@ namespace MovieDb.Data
         public DbSet<MovieReviewsDao> MovieReviews { get; set; }
         public DbSet<MovieMediaDao> MovieMedia { get; set; }
         public DbSet<ActorMediaDao> ActorMedia { get; set; }
+        public DbSet<BlogDao> Blogs { get; set; }
+        public DbSet<BlogCommentDao> BlogPostComments { get; set; }
+        public DbSet<HomepageSliderDao> HomepageSlider { get; set; }
         public DbSet<UserFavoriteMoviesDao> FavoriteMoviesDaos { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {

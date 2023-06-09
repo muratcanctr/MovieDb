@@ -1,0 +1,93 @@
+﻿@using MovieDb.Data.ViewModels
+@using MovieDb.Models.Dao
+@model PaginatedListViewModel<BlogDao>
+
+<div class="hero common-hero">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="hero-ct">
+					<h1> MCCK BLOG</h1>
+					<ul class="breadcumb">
+						<li class="active"><a asp-action="Index">Home</a></li>
+						<li>
+							<span class="ion-ios-arrow-right"></span> 
+							@if (ViewBag.Category != null)
+							{
+								@ViewBag.Category @Html.Raw(" Posts")
+							}
+							else
+							{
+								@Html.Raw("All Posts")
+							}
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- blog list section-->
+<div class="page-single">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-9 col-sm-12 col-xs-12">
+				@if (Model.Items !=null && Model.Items.Count > 0)
+				{
+					@foreach (var item in Model.Items)
+					{
+						<div class="blog-item-style-1 blog-item-style-3">
+							<img  src="@item.ListImage" alt="" >
+							<div class="blog-it-infor">
+								<h3><a asp-action="Detail" asp-route-id="@item.Id">@item.Title</a></h3>
+								<span class="time">@item.CreateDate.ToString("dd.mm.yyyy")</span>
+								<p>@item.Paragraph1>
+							</div>
+						</div>
+					}
+					<ul class="pagination">
+						@if (Model.HasPreviousPage)
+						{
+							<li class="icon-prev">
+								<a asp-controller="Blogs" asp-action="Index" asp-route-pageNumber="@(Model.PageIndex - 1)"><i class="ion-ios-arrow-left"></i></a>
+							</li>
+						}
+						@for (int i = 1; i <= Model.TotalPages; i++)
+						{
+							<li>
+								<a class="@(i == Model.PageIndex ? "active" : "")" asp-controller="Blogs" asp-action="Index" asp-route-pageNumber="@i">@i</a>
+							</li>
+
+						}
+						@if (Model.HasNextPage)
+						{
+							<li class="icon-next">
+								<a asp-controller="Blogs" asp-action="Index" asp-route-pageNumber="@(Model.PageIndex + 1)"><i class="ion-ios-arrow-right"></i></a>
+							</li>
+						}
+					</ul>
+				}
+				else
+				{
+					<h2 style="color:lightgray">Oops.. There is no blog post</h2>
+				}
+				
+			</div>
+			<div class="col-md-3 col-sm-12 col-xs-12">
+				<div class="sidebar">					
+					<div class="sb-cate sb-it">
+						<h4 class="sb-title">Categories</h4>
+						<ul>
+							<li><a asp-action="Index" asp-route-category="award">Awards</a></li>
+							<li><a asp-action="Index" asp-route-category="boxoffice">Box office </a></li>
+							<li><a asp-action="Index" asp-route-category="review">Film reviews </a></li>
+							<li><a asp-action="Index" asp-route-category="news">News</a></li>
+							<li><a asp-action="Index" asp-route-category="global">Global</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!--end of blog list section-->

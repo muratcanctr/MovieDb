@@ -39,10 +39,21 @@ namespace MovieDb.Services.Concrete
             return model;
         }
 
-		public Task<ActorDao> GetById(int? id)
+		public async Task<ActorDao> GetById(int? id)
 		{
-			throw new NotImplementedException();
-		}
+            if (id == null || _context.Actors == null)
+            {
+                return null;
+            }
+
+            var actorDao = await _context.Actors
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (actorDao == null)
+            {
+                return null;
+            }
+            return actorDao;
+        }
 
 		public Task<List<MovieDao>> GetMovies()
 		{

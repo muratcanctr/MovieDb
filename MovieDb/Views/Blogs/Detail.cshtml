@@ -1,0 +1,118 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using System.Security.Claims
+@inject UserManager<ApplicationUser> UserManager
+@inject SignInManager<ApplicationUser> SignInManager
+@model MovieDb.Data.ViewModels.BlogViewModel
+
+<div class="hero common-hero">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="hero-ct">
+					
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- blog detail section-->
+<div class="page-single">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-9 col-sm-12 col-xs-12">
+				<div class="blog-detail-ct">
+					<h1>@Model.blog.Title</h1>
+					<span class="time">@Model.blog.CreateDate.ToString("dd.MM.yyyy")</span>
+					<img src="@Model.blog.Banner" alt="">
+					<p>
+						@Model.blog.Paragraph1
+					</p>
+					@if (!String.IsNullOrEmpty(Model.blog.Paragraph2))
+					{
+						<p>@Model.blog.Paragraph2</p>
+					}
+					@if (!String.IsNullOrEmpty(Model.blog.Paragraph3))
+					{
+						<p>@Model.blog.Paragraph3</p>
+					}
+					@if (!String.IsNullOrEmpty(Model.blog.Paragraph4))
+					{
+						<p>@Model.blog.Paragraph4</p>
+					}
+					@if (!String.IsNullOrEmpty(Model.blog.Paragraph5))
+					{
+						<p>@Model.blog.Paragraph5</p>
+					}
+
+					<div class="flex-it share-tag">
+						
+						<div class="right-it">
+							<h4>Tags</h4>
+							@if (true)
+							{
+								foreach (var item in Model.blog.Tags.Split(","))
+								{
+									<a href="#">@item,</a>
+								}
+							}
+						</div>
+					</div>
+					<!-- comment items -->
+					<div class="comments">
+						<h4>@Model.comments.Count Comments</h4>
+						@if (Model.comments != null && Model.comments.Count>0)
+						{
+							foreach (var item in Model.comments)
+							{
+								<div class="cmt-item flex-it">
+									<img src="@item.ProfilePicture" alt="">
+									<div class="author-infor">
+										<div class="flex-it2">
+											<h6><a href="#">@item.Username</a></h6> <span class="time"> - @item.CreateDate.ToString("dd.MM.yyyy")</span>
+										</div>
+										<p>@item.Comment</p>
+									</div>
+								</div>
+							}
+						}
+					</div>
+					@if (SignInManager.IsSignedIn(User))
+					{
+						<div class="comment-form">
+							<h4>Leave a comment</h4>
+							<form action="">
+								<input type="hidden" name="userId" value="@User.FindFirstValue(ClaimTypes.NameIdentifier)">
+								<input type="hidden" name="blogCId" value="@Model.blog.BlogContentId.ToString()">
+								<input type="hidden" name="blogId" value="@Model.blog.Id.ToString()">
+								<div class="row">
+								</div>
+								<div class="row">
+									<div class="col-md-12">
+										<textarea name="message" id="" placeholder="Message"></textarea>
+									</div>
+								</div>
+								<input asp-controller ="Blogs" asp-action="AddComment" class="submit" type="submit" placeholder="submit">
+							</form>
+						</div>
+					}
+					
+					<!-- comment form -->
+				</div>
+			</div>
+			<div class="col-md-3 col-sm-12 col-xs-12">
+				<div class="sidebar">
+					<div class="sb-cate sb-it">
+						<h4 class="sb-title">Categories</h4>
+						<ul>
+							<li><a asp-action="Index" asp-route-category="award">Awards</a></li>
+							<li><a asp-action="Index" asp-route-category="boxoffice">Box office </a></li>
+							<li><a asp-action="Index" asp-route-category="review">Film reviews </a></li>
+							<li><a asp-action="Index" asp-route-category="news">News</a></li>
+							<li><a asp-action="Index" asp-route-category="global">Global</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

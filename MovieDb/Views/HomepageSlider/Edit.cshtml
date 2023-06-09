@@ -1,0 +1,160 @@
+﻿@model List<MovieDb.Models.Dao.MovieDao>
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<style>
+    .movie-list {
+        display: flex;
+        flex-wrap: wrap;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .movie-item {
+        width: calc(25% - 20px);
+        margin: 10px;
+        padding: 10px;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+        align-items:center;
+    }
+
+    .movie-image {
+        width: 200px;
+        height: 200px;
+        object-fit: cover;
+        display: block;
+        margin: 0 auto;
+    }
+
+    .movie-title {
+        margin-top: 10px;
+        font-weight: bold;
+        text-align: center;
+        margin: 0 auto;
+    }
+
+    .movie-checkbox {
+        margin-top: 10px;
+        display: block;
+        margin: 0 auto;
+        transform: scale(1.5);
+        margin-right: 5px;
+    }
+
+    .search-input {
+        width: 300px;
+        margin: 0 auto;
+        display: block;
+    }
+
+    button[type="submit"] {
+        float: right;
+    }
+
+    .movie-item .movie-title.selected {
+        background-color: blue;
+    }
+
+    .movie-container {
+        height: 700px;
+        overflow-y: scroll;
+        padding-right: 10px;
+    }
+</style>
+<h1>Film Listesi</h1>
+<form id="movieForm" method="post" asp-action="Edit">
+    <input type="text" id="searchInput" class="search-input" placeholder="Film Ara">
+    <div class="movie-container">
+    <ul id="movieList" class="movie-list"></ul>
+    </div>
+    <input type="hidden" value="ViewBag.Id" />
+    <button type="submit">Select Movies</button>
+</form>
+
+<script>
+    var movies = @Html.Raw(Json.Serialize(Model));
+    var selectedMovies = [];
+
+    function displayMovies(filter) {
+        var movieList = document.getElementById("movieList");
+        movieList.innerHTML = "";
+
+        for (var i = 0; i < movies.length; i++) {
+            var movie = movies[i];
+
+            if (filter === "" || movie.title.toLowerCase().includes(filter.toLowerCase())) {
+                var li = document.createElement("li");
+                li.className = "movie-item";
+
+                var checkbox = document.createElement("input");
+                checkbox.type = "checkbox";
+                checkbox.value = movie.contentId;
+                checkbox.className = "movie-checkbox";
+                checkbox.addEventListener("change", toggleMovieSelection);
+
+                var image = document.createElement("img");
+                image.src = movie.banner;
+                image.alt = movie.title;
+                image.className = "movie-image";
+
+                var title = document.createElement("h5");
+                title.textContent = movie.title;
+                title.className = "movie-title";
+
+                li.appendChild(image);
+                li.appendChild(title);
+                li.appendChild(checkbox);
+                movieList.appendChild(li);
+            }
+        }
+    }
+
+    function toggleMovieSelection(event) {
+        var movieId = event.target.value;
+        var li = event.target.parentElement;
+        li.classList.toggle("selected");
+        if (event.target.checked) {
+            if (!selectedMovies.includes(movieId)) {
+                selectedMovies.push(movieId);
+            }
+        } else {
+            var index = selectedMovies.indexOf(movieId);
+            if (index > -1) {
+                selectedMovies.splice(index, 1);
+            }
+        }
+    }
+
+    function handleSearch() {
+        var searchInput = document.getElementById("searchInput");
+        var filter = searchInput.value;
+        displayMovies(filter);
+    }
+
+    var movieForm = document.getElementById("movieForm");
+    movieForm.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        var hiddenField = document.createElement("input");
+        hiddenField.type = "hidden";
+        hiddenField.name = "selectedMovies";
+        hiddenField.value = JSON.stringify(selectedMovies);
+        movieForm.appendChild(hiddenField);
+
+        movieForm.submit();
+    });
+
+    var searchInput = document.getElementById("searchInput");
+    searchInput.addEventListener("input", handleSearch);
+
+    displayMovies("");
+</script>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

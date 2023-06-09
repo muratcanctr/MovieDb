@@ -17,7 +17,7 @@ namespace MovieDb.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.15")
+                .HasAnnotation("ProductVersion", "6.0.16")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -153,14 +153,14 @@ namespace MovieDb.Migrations
                         {
                             Id = "b74ddd14-6340-4840-95c2-db12554843e5",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "881107fe-f1e0-44f4-849e-671380d8ff2c",
+                            ConcurrencyStamp = "42920cf8-5341-48e7-a82f-26d1d457b15a",
                             Email = "admin@imdbv2.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAEAACcQAAAAEDHyp0ku1y0Wgkf+ZqrodTKY/zdIX6AiW817MP9Kmv4LMnZRmK0MNHNIq9nUS/WMGQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEK603ALOCdvV8C/MTiGT/Xui7aCldLYeLnf3pg5rMnQZ/PjW4t5pr6Npfpw9X6kcLQ==",
                             PhoneNumber = "1234567890",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "93930e59-d9a9-4e23-b0ac-989fa12569f4",
+                            SecurityStamp = "976978f0-6af4-4c08-aa39-db5696292506",
                             TwoFactorEnabled = false,
                             UserName = "SuperAdmin"
                         });
@@ -341,6 +341,10 @@ namespace MovieDb.Migrations
                     b.Property<string>("Banner")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Biography")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<Guid>("ContentId")
                         .HasColumnType("uniqueidentifier");
 
@@ -362,6 +366,10 @@ namespace MovieDb.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PlotKeywords")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Summary")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -407,6 +415,100 @@ namespace MovieDb.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ActorMedia");
+                });
+
+            modelBuilder.Entity("MovieDb.Models.Dao.BlogCommentDao", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<Guid>("BlogContentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Comment")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("userId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("BlogPostComments");
+                });
+
+            modelBuilder.Entity("MovieDb.Models.Dao.BlogDao", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Banner")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("BlogContentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Categories")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ListImage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Paragraph1")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Paragraph2")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Paragraph3")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Paragraph4")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Paragraph5")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Tags")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Blogs");
+                });
+
+            modelBuilder.Entity("MovieDb.Models.Dao.HomepageSliderDao", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("movieId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("HomepageSlider");
                 });
 
             modelBuilder.Entity("MovieDb.Models.Dao.MovieDao", b =>

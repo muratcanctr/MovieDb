@@ -45,6 +45,9 @@
 						<li>
 							<a class="btn btn-default" asp-area="" asp-controller="Movie" asp-action="Index">Movie</i></a>
 						</li>
+						<li>
+							<a class="btn btn-default" asp-area="" asp-controller="Blogs" asp-action="Index">Blog</i></a>
+						</li>
 					</ul>
 					<ul class="nav navbar-nav flex-child-menu menu-right">
 						<partial name="_LoginPartial" />
@@ -59,9 +62,19 @@
 
 	
 		@RenderBody()
-	
-	
 
+
+	<!-- footer section-->
+	<footer class="ht-footer">
+		<div class="ft-copyright">
+			<div class="ft-left">
+				<p>© 2023 MCCK. All Rights Reserved.</p>
+			</div>
+			<div class="backtotop">
+				<p><a href="#" id="back-to-top">Back to top  <i class="ion-ios-arrow-thin-up"></i></a></p>
+			</div>
+		</div>
+	</footer>
 
 
 	<script src="~/lib/jquery/dist/jquery.min.js"></script>

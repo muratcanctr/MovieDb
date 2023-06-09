@@ -33,14 +33,14 @@
     <div class="l-navbar" id="nav-bar">
         <nav class="nav">
             <div>
-                <a href="#" class="nav_logo"> <i class='bx bx-layer nav_logo-icon'></i> <span class="nav_logo-name">BBBootstrap</span> </a>
+                <a href="#" class="nav_logo"> <i class='bx bx-layer nav_logo-icon'></i> <span class="nav_logo-name">MCCK Dashboard</span> </a>
                 <div class="nav_list">
                     <a href="#" class="nav_link @(activePage=="DashBoard" ? "active" : "")"> <i class='bx bx-grid-alt nav_icon'></i> <span class="nav_name">Dashboard</span>  </a>
                     <a href="/UserRoles/Index" class="nav_link @(activePage=="UserRoles" ? "active" : "") @(activePage=="RoleManager" ? "active" : "")"> <i class='bx bx-user nav_icon'></i> <span class="nav_name">Users</span> </a>
-                    <a href="/EditorMovie/Index" class="nav_link @(activePage=="EditorMovie" ? "active" : "")"> <i class='bx bx-message-square-detail nav_icon'></i> <span class="nav_name">Movies</span> </a>
+                    <a href="/EditorMovie/Index" class="nav_link @(activePage=="EditorMovie" ? "active" : "")"> <i class='bx bx-movie nav_icon'></i> <span class="nav_name">Movies</span> </a>
                     <a href="/EditorActor/Index" class="nav_link @(activePage=="EditorActor" ? "active" : "")"> <i class='bx bx-bookmark nav_icon'></i> <span class="nav_name">Actors</span> </a>
-                    <a href="#" class="nav_link @(activePage=="Bookmark" ? "active" : "")" > <i class='bx bx-folder nav_icon'></i> <span class="nav_name">Files</span> </a>
-                    <a href="#" class="nav_link @(activePage=="Bookmark" ? "active" : "")" > <i class='bx bx-bar-chart-alt-2 nav_icon'></i> <span class="nav_name">Stats</span> </a>
+                    <a href="/MovieMedia" class="nav_link @(activePage=="MovieMedia" ? "active" : "")"> <i class='bx bx-folder nav_icon'></i> <span class="nav_name">Files</span> </a>
+                    <a href="/EditorBlog" class="nav_link @(activePage=="EditorBlog" ? "active" : "")"> <i class='bx bxl-blogger nav_icon'></i></i> <span class="nav_name">Blog</span> </a>
                 </div>
             </div>
             <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">

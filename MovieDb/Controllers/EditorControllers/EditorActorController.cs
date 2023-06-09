@@ -102,6 +102,10 @@ namespace MovieDb.Controllers.EditorControllers
                     {
                         actorVm.actor.Movies = string.Join(",", actorVm.Movies.Where(x => x != null).Select(g => g.ToString()));
                     }
+                    else
+                    {
+                        actorVm.actor.Movies = _editorActorService.GetById(id).Result.Movies;
+                    }
                     if (thumbnailFileInput != null)
                     {
                         actorVm.actor.Thumbnail = _fileUploadService.UploadFile(thumbnailFileInput);

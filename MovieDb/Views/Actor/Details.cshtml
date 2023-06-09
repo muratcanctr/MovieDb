@@ -1,0 +1,193 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@using MovieDb.Data.ViewModels
+@using System.Security.Claims
+@model ActorDetailViewModel
+
+<div class="hero hero3">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<!-- <h1> movie listing - list</h1>
+				<ul class="breadcumb">
+					<li class="active"><a href="#">Home</a></li>
+					<li> <span class="ion-ios-arrow-right"></span> movie listing</li>
+				</ul> -->
+			</div>
+		</div>
+	</div>
+</div>
+<!-- celebrity single section-->
+
+<div class="page-single movie-single cebleb-single">
+	<div class="container">
+		<div class="row ipad-width">
+			<div class="col-md-4 col-sm-12 col-xs-12">
+				<div class="mv-ceb">
+					<img src="@Model.ActorDetails.Banner" alt="">
+				</div>
+			</div>
+			<div class="col-md-8 col-sm-12 col-xs-12">
+				<div class="movie-single-ct">
+					<h1 class="bd-hd">@Model.ActorDetails.FullName</h1>
+					<div class="movie-tabs">
+						<div class="tabs">
+							<ul class="tab-links tabs-mv">
+								<li class="active"><a href="#overviewceb">Overview</a></li>
+								<li><a href="#biography"> Biography</a></li>
+								<li><a href="#mediaceb"> Media</a></li>
+								<li><a href="#filmography">Filmography</a></li>
+							</ul>
+							<div class="tab-content">
+								<div id="overviewceb" class="tab active">
+									<div class="row">
+										<div class="col-md-8 col-sm-12 col-xs-12">
+											<p>
+												@Model.ActorDetails.Summary
+											</p>											
+											<div class="title-hd-sm">
+												<h4>Videos & Photos</h4>
+												<a href="#mediaceb" class="time">All @Model.ActorMedia.Count Media <i class="ion-ios-arrow-right"></i></a>
+											</div>											
+											<div class="title-hd-sm">
+												<h4>filmography</h4>												
+											</div>
+											<!-- movie cast -->
+											<div class="mvcast-item">
+												@foreach (var item in Model.Movies)
+												{
+													<div class="cast-it">
+														<div class="cast-left cebleb-film">
+															<img src="@item.Banner" alt="">
+															<div>
+																<a asp-controller="Movie" asp-route-id="@item.Id" asp-action="Details">@item.Title</a>
+															</div>
+														</div>
+														<p>...  @item.ReleaseDate.Year</p>
+													</div>
+												}											
+												
+											</div>
+										</div>
+										<div class="col-md-4 col-xs-12 col-sm-12">
+											<div class="sb-it">
+												<h6>Fullname:  </h6>
+												<p><a href="#">@Model.ActorDetails.FullName</a></p>
+											</div>
+											<div class="sb-it">
+												<h6>Date of Birth: </h6>
+												<p>@Model.ActorDetails.DateOfBirth</p>
+											</div>
+											<div class="sb-it">
+												<h6>Country:  </h6>
+												<p>@Model.ActorDetails.Country</p>
+											</div>
+											<div class="sb-it">
+												<h6>Height:</h6>
+												<p>
+													@Model.ActorDetails.Height cm
+												</p>
+											</div>
+											<div class="sb-it">
+												<h6>Keywords:</h6>												
+												<p class="tags">
+													@foreach (var item in Model.PlotKeys)
+													{
+														<span class="time"><a href="#">@item</a></span>
+													}													
+												</p>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div id="biography" class="tab">
+									<div class="row">
+										<div class="rv-hd">
+											<div>
+												<h3>Biography of</h3>
+												<h2>@Model.ActorDetails.FullName</h2>
+											</div>
+										</div>
+										<p>@Model.ActorDetails.Biography</p>
+									</div>
+								</div>
+								<div id="mediaceb" class="tab">
+									<div class="row">
+										<div class="rv-hd">
+											<div>
+												<h3>Media of</h3>
+												<h2>@Model.ActorDetails.FullName</h2>
+											</div>
+										</div>
+										<div class="title-hd-sm">
+											<h4>Videos <span></span></h4>
+										</div>
+										<div class="mvsingle-item media-item">
+											@foreach (var item in Model.ActorMedia)
+											{
+												if (item.MediaType == "video")
+												{
+													<div class="vd-item">
+														<div class="vd-it">
+															<img class="vd-img" src="@item.ActorThumbnail" alt="">
+															<a class="fancybox-media hvr-grow" href="@item.Url"><img src="images/uploads/play-vd.png" alt=""></a>
+														</div>
+														<div class="vd-infor">
+															<h6> <a href="@item.Url">@item.Title</a></h6>
+														</div>
+													</div>
+												}
+											}											
+										</div>
+										<div class="title-hd-sm">
+											<h4>Photos <span></span></h4>
+										</div>
+										<div class="mvsingle-item">
+											@foreach (var item in Model.ActorMedia)
+											{
+												if (item.MediaType == "photo")
+												{
+													<a class="img-lightbox" data-fancybox-group="gallery" href="@item.Url"><img src="@item.Url" alt=""></a>
+												}
+											}		
+										</div>
+									</div>
+								</div>
+								<div id="filmography" class="tab">
+									<div class="row">
+										<div class="rv-hd">
+											<div>
+												<h3>Filmography of</h3>
+												<h2>@Model.ActorDetails.FullName</h2>
+											</div>
+
+										</div>
+										<div class="topbar-filter">
+											<p>Found <span>@Model.Movies.Count movies</span> in total</p>											
+										</div>
+										<!-- movie cast -->
+										<div class="mvcast-item">
+											@foreach (var item in Model.Movies)
+												{
+													<div class="cast-it">
+														<div class="cast-left cebleb-film">
+															<img src="@item.Banner" alt="">
+															<div>
+																<a asp-controller="Movie" asp-route-id="@item.Id" asp-action="Details">@item.Title</a>
+															</div>
+														</div>
+														<p>...  @item.ReleaseDate.Year</p>
+													</div>
+												}	
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

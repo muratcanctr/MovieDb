@@ -23,6 +23,9 @@ builder.Services.AddScoped<IFileUploadService, FileUploadService>();
 builder.Services.AddScoped<IEditorMovieService, EditorMovieService>();
 builder.Services.AddScoped<IEditorActorService, EditorActorService>();
 builder.Services.AddScoped<IMovieService, MovieService>();
+builder.Services.AddScoped<IActorService, ActorService>();
+builder.Services.AddScoped<IBlogService, BlogService>();
+builder.Services.AddScoped<IHomepageService, HomepageService>();
 builder.Services.AddScoped<ApplicationDbContext>();
 
 var app = builder.Build();

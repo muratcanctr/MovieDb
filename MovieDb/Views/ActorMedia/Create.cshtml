@@ -1,0 +1,67 @@
+﻿@model MovieDb.Models.Dao.ActorMediaDao
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<h1>Create</h1>
+
+<h4>MovieMediaDao</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>            
+            <div class="form-group" style="margin:10px;">
+                <label asp-for="ActorContentId" class="control-label">Select Actor</label>
+                <select asp-for="ActorContentId" class="form-control" asp-items="ViewBag.Actors"></select>
+                <span asp-validation-for="ActorContentId" class="text-danger"></span>
+            </div>
+            <div class="form-group" style="margin:10px;">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group" style="margin:10px;">
+                <label asp-for="MediaType" >Media Type:</label>
+                <select asp-for="MediaType" id="selectbox" onchange="toggleInputs()">
+                        <option value="video">Video</option>
+                        <option value="photo">Fotoğraf</option>
+                    </select>                
+                <span asp-validation-for="MediaType" class="text-danger"></span>
+            </div>
+            <div id="video-input" style="margin:10px;">
+                <label for="video-url">Video URL : </label>
+                <input type="text" id="video-url" name="url">
+            </div>
+            <div id="photo-input" style="display:none;margin:10px;">
+                <label for="photo-file">Photo file : </label>
+                <input type="file" id="photo-file" name="photoFileInput" accept="image/*" >
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+<script>
+    function toggleInputs() {
+        const selectbox = document.getElementById("selectbox");
+        const videoInput = document.getElementById("video-input");
+        const photoInput = document.getElementById("photo-input");
+
+        if (selectbox.value === "video") {
+            videoInput.style.display = "block";
+            photoInput.style.display = "none";
+        } else if (selectbox.value === "photo") {
+            videoInput.style.display = "none";
+            photoInput.style.display = "block";
+        }
+    }
+</script>

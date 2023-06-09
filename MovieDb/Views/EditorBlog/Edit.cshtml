@@ -1,0 +1,92 @@
+﻿@model MovieDb.Models.Dao.BlogDao
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<h1>Edit</h1>
+
+<h4>@Model.Title</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="BlogContentId" />
+            <input type="hidden" asp-for="Banner" />
+            <input type="hidden" asp-for="ListImage" />
+            <input type="hidden" asp-for="Categories" />
+            <div class="form-group" style="margin:20px;">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group" style="margin:20px;">
+                <label asp-for="Banner" class="control-label"></label>
+                <input type="file" class="form-control-file" id="bannerFileInput" name="bannerFileInput">
+                <span asp-validation-for="Banner" class="text-danger"></span>
+            </div>
+            <div class="form-group" style="margin:20px;">
+                <label asp-for="ListImage" class="control-label"></label>
+                <input type="file" class="form-control-file" id="listImageFileInput" name="listImageFileInput">
+                <span asp-validation-for="ListImage" class="text-danger"></span>
+            </div>
+            <div class="form-group" style="margin:20px;">
+                <label asp-for="CreateDate" class="control-label"></label>
+                <input asp-for="CreateDate" class="form-control" />
+                <span asp-validation-for="CreateDate" class="text-danger"></span>
+            </div>
+            <div class="form-group" style="margin:20px;">
+                <label for="movie-genre">Select a categories:</label>
+                <select id="movie-genre" name="updatedCategories" multiple>
+                    <option value="news">News</option>
+                    <option value="award">Awards</option>
+                    <option value="boxoffice">Box Office</option>
+                    <option value="review">Film Reviews</option>
+                    <option value="global">Global</option>
+                </select>
+                <span asp-validation-for="Categories" class="text-danger"></span>
+            </div>
+            <div class="form-group" style="margin:20px;">
+                <label asp-for="Paragraph1" class="control-label"></label>
+                <input asp-for="Paragraph1" class="form-control" />
+                <span asp-validation-for="Paragraph1" class="text-danger"></span>
+            </div>
+            <div class="form-group"style="margin:20px;">
+                <label asp-for="Paragraph2" class="control-label"></label>
+                <input asp-for="Paragraph2" class="form-control" />
+                <span asp-validation-for="Paragraph2" class="text-danger"></span>
+            </div>
+            <div class="form-group" style="margin:20px;">
+                <label asp-for="Paragraph3" class="control-label"></label>
+                <input asp-for="Paragraph3" class="form-control" />
+                <span asp-validation-for="Paragraph3" class="text-danger"></span>
+            </div>
+            <div class="form-group" style="margin:20px;">
+                <label asp-for="Paragraph4" class="control-label"></label>
+                <input asp-for="Paragraph4" class="form-control" />
+                <span asp-validation-for="Paragraph4" class="text-danger"></span>
+            </div>
+            <div class="form-group"style="margin:20px;">
+                <label asp-for="Paragraph5" class="control-label"></label>
+                <input asp-for="Paragraph5" class="form-control" />
+                <span asp-validation-for="Paragraph5" class="text-danger"></span>
+            </div>
+            <div class="form-group" style="margin:20px;">
+                <label asp-for="Tags" class="control-label"></label>
+                <input asp-for="Tags" class="form-control" />
+                <span asp-validation-for="Tags" class="text-danger"></span>
+            </div>
+            <div class="form-group" style="margin:20px;">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

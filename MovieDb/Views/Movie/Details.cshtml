@@ -95,7 +95,7 @@
 													<div class="cast-it">
 														<div class="cast-left">
 															<img src="@item.Banner" alt="">
-															<a href="#" >@item.FullName</a>
+															<a asp-controller="Actor" asp-action="Details" asp-route-id="@item.Id" >@item.FullName</a>
 														</div>
 													</div>
 												}

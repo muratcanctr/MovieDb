@@ -55,6 +55,7 @@ namespace MovieDb.Services.Concrete
 
         public async Task Update(MovieDao movie)
         {
+            
             _context.Movies.Update(movie);
             await _context.SaveChangesAsync();
         }

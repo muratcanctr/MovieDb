@@ -1,5 +1,226 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿@model MovieDb.Data.ViewModels.HomepageViewModel
+
+<div class="slider movie-items">
+	<div class="container">
+		<div class="row">			
+	    	<div class="slick-multiItemSlider">
+				@foreach (var item in Model.MainSlider)
+				{
+					var genres = item.Genres.Split(",");
+					<div class="movie-item">
+	    				<div class="mv-img">
+	    					<a asp-controller="Movie" asp-action="Details" asp-route-id="@item.Id"><img src="@item.Banner" alt="" width="285" height="437"></a>
+	    				</div>
+	    				<div class="title-in">
+							@foreach (var item2 in genres)
+							{
+								@if (!String.IsNullOrEmpty(item2))
+								{
+									<div class="cate">
+	    								<span class="blue"><a href="#">@item2.ToUpper()</a></span>
+	    							</div>
+								}
+							}
+	    					<h6><a asp-controller="Movie" asp-action="Details" asp-route-id="@item.Id">@item.Title</a></h6>
+	    					<p><i class="ion-android-star"></i><span>@item.Rating.ToString("0.0")</span> /10</p>
+	    				</div>
+	    			</div>
+				}	 
+	    	</div>
+	    </div>
+	</div>
+</div>
+<div class="movie-items">
+	<div class="container">
+		<div class="row ipad-width">
+			<div class="col-md-12">
+				<div class="title-hd">
+					<h2>Movies</h2>
+					<a asp-controller="Movie" asp-action="Index" class="viewall">View all <i class="ion-ios-arrow-right"></i></a>
+				</div>
+				<div class="tabs">
+					<ul class="tab-links">
+						<li class="active"><a href="#tab1"> #Coming soon</a></li>
+						<li><a href="#tab2">  #Top rated  </a></li>                     
+					</ul>
+				    <div class="tab-content">
+				        <div id="tab1" class="tab">
+				           <div class="row">
+				            	<div class="slick-multiItem">
+									@foreach (var item in Model.ComingSoonSlider)
+									{
+										<div class="slide-it">
+											<div class="movie-item">
+												<div class="mv-img">
+													<img src="@item.Banner" alt="" width="185" height="284">
+												</div>
+												<div class="hvr-inner">
+													<a asp-controller="Movie" asp-action="Details" asp-route-id="@item.Id"> Read more <i class="ion-android-arrow-dropright"></i> </a>
+												</div>
+												<div class="title-in">
+													<h6><a asp-controller="Movie" asp-action="Details" asp-route-id="@item.Id">@item.Title</a></h6>
+													<p><i class="ion-android-star"></i><span>@item.Rating.ToString("0.0")</span> /10</p>
+												</div>
+											</div>
+										</div>
+									}
+				            		
+				            	</div>
+				            </div>
+				        </div>
+				        <div id="tab2" class="tab">
+				        	<div class="row">
+				            	<div class="slick-multiItem">
+									@foreach (var item in Model.TopRatedSlider)
+									{
+										<div class="slide-it">
+											<div class="movie-item">
+												<div class="mv-img">
+													<img src="@item.Banner" alt="" width="185" height="284">
+												</div>
+												<div class="hvr-inner">
+													<a asp-controller="Movie" asp-action="Details" asp-route-id="@item.Id"> Read more <i class="ion-android-arrow-dropright"></i> </a>
+												</div>
+												<div class="title-in">
+													<h6><a asp-controller="Movie" asp-action="Details" asp-route-id="@item.Id">@item.Title</a></h6>
+													<p><i class="ion-android-star"></i><span>@item.Rating.ToString("0.0")</span> /10</p>
+												</div>
+											</div>
+										</div>
+									}
+				            	</div>
+				            </div>
+			       	 	</div>
+				    </div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 
 
+<!-- latest new v1 section-->
+<div class="latestnew">
+	<div class="container">
+		<div class="row ipad-width">
+			<div class="col-md-12">				
+				<div class="title-hd">
+					<h2>Latest news</h2>
+				</div>
+				<div class="tabs">
+				    <div class="tab-content">
+				        <div id="tab31" class="tab active">
+				            <div class="row">
+				            	<div class="blog-item-style-1">
+				            		<img src="@Model.HomepageBlogs[0].Banner" alt="" width="170" height="250">
+				            		<div class="blog-it-infor">
+										<h3><a asp-controller="Blogs" asp-action="Detail" asp-route-id="@Model.HomepageBlogs[0].Id">@Model.HomepageBlogs[0].Title</a></h3>
+										@{var guncelTarih = DateTime.Now;
+
+											TimeSpan fark = guncelTarih - @Model.HomepageBlogs[0].CreateDate;
+										double saatFarki = fark.TotalHours;
+										}
+										@if (saatFarki<1)
+										{
+											<span class="time">Just Now!</span>
+										}
+										else
+										{
+											<span class="time">@saatFarki.ToString("0") hours ago</span>
+										}
+										<p>@Model.HomepageBlogs[0].Paragraph1</p>
+				            		</div>
+				            	</div>
+				            </div>
+				        </div>
+				    </div>
+				</div>
+				<div class="morenew">
+					<div class="title-hd">
+						<h3>More news on MCCK</h3>
+						<a asp-controller="Blogs" asp-action="Index" class="viewall">See all  Posts<i class="ion-ios-arrow-right"></i></a>
+					</div>
+					<div class="more-items">
+						<div class="left">
+							@if (Model.HomepageBlogs.Count > 1 )
+							{
+								<div class="more-it">
+									<h6><a asp-controller="Blogs" asp-action="Detail" asp-route-id="@Model.HomepageBlogs[1].Id">@Model.HomepageBlogs[1].Title</a></h6>
+									@{
+										fark = guncelTarih - @Model.HomepageBlogs[1].CreateDate;
+										saatFarki = fark.TotalHours;
+									}
+									@if (saatFarki<1)
+										{
+											<span class="time">Just Now!</span>
+										}
+										else
+										{
+											<span class="time">@saatFarki.ToString("0") hours ago</span>
+										}
+								</div>
+							}
+							
+							@if (Model.HomepageBlogs.Count > 3)
+							{
+								<div class="more-it">
+									<h6><a asp-controller="Blogs" asp-action="Detail" asp-route-id="@Model.HomepageBlogs[3].Id">@Model.HomepageBlogs[3].Title</a></h6>
+									@{
+										fark = guncelTarih - @Model.HomepageBlogs[3].CreateDate;
+										saatFarki = fark.TotalHours;
+									}
+									@if (saatFarki<1)
+										{
+											<span class="time">Just Now!</span>
+										}
+										else
+										{
+											<span class="time">@saatFarki.ToString("0") hours ago</span>
+										}
+								</div>
+							}
+						</div>
+						<div class="right">
+							@if (Model.HomepageBlogs.Count >2)
+							{
+								<div class="more-it">
+									<h6><a asp-controller="Blogs" asp-action="Detail" asp-route-id="@Model.HomepageBlogs[2].Id">@Model.HomepageBlogs[2].Title</a></h6>
+									@{
+										fark = guncelTarih - @Model.HomepageBlogs[2].CreateDate;
+										saatFarki = fark.TotalHours;
+									}
+									@if (saatFarki<1)
+										{
+											<span class="time">Just Now!</span>
+										}
+										else
+										{
+											<span class="time">@saatFarki.ToString("0") hours ago</span>
+										}
+								</div>
+							}
+							@if (Model.HomepageBlogs.Count > 4)
+							{
+								<div class="more-it">
+									<h6><a asp-controller="Blogs" asp-action="Detail" asp-route-id="@Model.HomepageBlogs[4].Id">@Model.HomepageBlogs[4].Title</a></h6>
+									@{
+										fark = guncelTarih - @Model.HomepageBlogs[4].CreateDate;
+										saatFarki = fark.TotalHours;
+									}
+									@if (saatFarki<1)
+										{
+											<span class="time">Just Now!</span>
+										}
+										else
+										{
+											<span class="time">@saatFarki.ToString("0") hours ago</span>
+										}
+								</div>
+							}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

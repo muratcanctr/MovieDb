@@ -15,5 +15,7 @@ namespace MovieDb.Models.Dao
             public string Country { get; set; }
             public int Height { get; set; }
             public string? Movies { get; set; }
+            public string Summary { get; set; }
+            public string Biography { get; set; }
     }
 }

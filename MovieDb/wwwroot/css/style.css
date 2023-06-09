@@ -5422,7 +5422,6 @@ ul {
   display: -ms-flexbox;
   display: flex;
   align-items: center;
-  justify-content: space-between;
 }
 @media (max-width: 767px) {
   .blog-detail-ct .flex-it {
@@ -5436,7 +5435,6 @@ ul {
   display: -ms-flexbox;
   display: flex;
   align-items: center;
-  justify-content: flex-start;
 }
 .blog-detail-ct .flex-ct img {
   margin-left: 30px;
